@@ -59,7 +59,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
         if (orientationProvider != null) {
             // Get the rotation from the current orientationProvider
-            gl.glMultMatrixf(orientationProvider.getRotationMatrix(), 0);
+            gl.glMultMatrixf(orientationProvider.getRotationMatrix().getMatrix(), 0);
         }
 
         // draw our object

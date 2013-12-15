@@ -1,5 +1,7 @@
 package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 
+import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
+
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,7 +24,7 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
     /**
      * The matrix that holds the current rotation
      */
-    private final float[] currentOrientationRotationMatrix = new float[16];
+    private final Matrixf4x4 currentOrientationRotationMatrix;
 
     /**
      * The sensor manager for accessing android sensors
@@ -40,11 +42,8 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
         // find the rotation-vector sensor
         rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
-        // initialize the rotation matrix to identity
-        currentOrientationRotationMatrix[0] = 1;
-        currentOrientationRotationMatrix[4] = 1;
-        currentOrientationRotationMatrix[8] = 1;
-        currentOrientationRotationMatrix[12] = 1;
+        // Initialise with identity
+        currentOrientationRotationMatrix = new Matrixf4x4();
     }
 
     @Override
@@ -68,7 +67,7 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
             // convert the rotation-vector to a 4x4 matrix. the matrix
             // is interpreted by Open GL as the inverse of the
             // rotation-vector, which is what we want.
-            SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix, event.values);
+            SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix, event.values);
         }
     }
 
@@ -77,7 +76,7 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
     }
 
     @Override
-    public float[] getRotationMatrix() {
+    public Matrixf4x4 getRotationMatrix() {
         return currentOrientationRotationMatrix;
     }
 }
