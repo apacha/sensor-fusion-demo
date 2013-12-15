@@ -23,6 +23,10 @@ import android.hardware.SensorManager;
  * 
  */
 public abstract class OrientationProvider implements SensorEventListener {
+    /**
+     * Sync-token for syncing read/write to sensor-data from sensor manager and fusion algorithm
+     */
+    protected final Object syncToken = new Object();
 
     /**
      * The list of sensors used by this provider
@@ -91,13 +95,17 @@ public abstract class OrientationProvider implements SensorEventListener {
      * @return Returns the current rotation of the device in the rotation matrix format (4x4 matrix)
      */
     public Matrixf4x4 getRotationMatrix() {
-        return currentOrientationRotationMatrix;
+        synchronized (syncToken) {
+            return currentOrientationRotationMatrix;
+        }
     }
 
     /**
      * @return Returns the current rotation of the device in the quaternion format (vector4f)
      */
     public Quaternion getQuaternion() {
-        return currentOrientationQuaternion;
+        synchronized (syncToken) {
+            return currentOrientationQuaternion.clone();
+        }
     }
 }

@@ -443,7 +443,7 @@ public class Quaternion extends Vector4f {
     }
 
     /**
-     * @return Returns this Quaternion in the
+     * @return Returns this Quaternion in the Rotation Matrix representation
      */
     public Matrixf4x4 getMatrix4x4() {
         //toMatrixColMajor();

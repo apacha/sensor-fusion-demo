@@ -6,7 +6,7 @@ import android.hardware.SensorManager;
 
 /**
  * The orientation provider that delivers the current orientation from the {@link Sensor#TYPE_GRAVITY
- * Accelerometer} and {@link Sensor#TYPE_MAGNETIC_FIELD Compass}.
+ * Gravity} and {@link Sensor#TYPE_MAGNETIC_FIELD Compass}.
  * 
  * @author Alexander Pacha
  * 

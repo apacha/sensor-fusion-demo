@@ -11,7 +11,7 @@
 
 package org.hitlabnz.sensor_fusion_demo;
 
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.GravityCompassProvider;
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSensor2Provider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
 
 import android.app.Activity;
@@ -43,7 +43,12 @@ public class MainActivity extends Activity {
         // Initialise the orientationProvider
         //currentOrientationProvider = new RotationVectorProvider((SensorManager) getSystemService(SENSOR_SERVICE));
         //currentOrientationProvider = new AccelerometerCompassProvider((SensorManager) getSystemService(SENSOR_SERVICE));
-        currentOrientationProvider = new GravityCompassProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+        //currentOrientationProvider = new GravityCompassProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+        //currentOrientationProvider = new CalibratedGyroscopeProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+        //        currentOrientationProvider = new ImprovedOrientationSensor1Provider(
+        //                (SensorManager) getSystemService(SENSOR_SERVICE));
+        currentOrientationProvider = new ImprovedOrientationSensor2Provider(
+                (SensorManager) getSystemService(SENSOR_SERVICE));
 
         // Create our Preview view and set it as the content of our Activity
         mRenderer = new CubeRenderer();

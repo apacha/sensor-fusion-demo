@@ -74,6 +74,17 @@ public class Matrixf4x4 {
         }
     }
 
+    public void setMatrixValues(float[] otherMatrix) {
+        if (this.matrix.length != otherMatrix.length) {
+            Log.e("matrix", "Matrix set is invalid, size is " + otherMatrix.length + " expected 9 or 16");
+
+        }
+
+        for (int i = 0; i < otherMatrix.length; i++) {
+            this.matrix[i] = otherMatrix[i];
+        }
+    }
+
     /**
      * Set whether the internal data is col major by passing true, or false for a row major matrix. The matrix is column
      * major by default.
