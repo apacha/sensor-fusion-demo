@@ -7,7 +7,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * A simple cube that is used for drawing the current rotation of the device
+ * A simple colour-cube that is used for drawing the current rotation of the device
  * 
  */
 public class Cube {
@@ -24,6 +24,9 @@ public class Cube {
      */
     private ByteBuffer mIndexBuffer;
 
+    /**
+     * Initialises a new instance of the cube
+     */
     public Cube() {
         final float vertices[] = { -1, -1, -1, 1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1, };
 
@@ -50,6 +53,11 @@ public class Cube {
         mIndexBuffer.position(0);
     }
 
+    /**
+     * Draws this cube of the given GL-Surface
+     * 
+     * @param gl The GL-Surface this cube should be drawn upon.
+     */
     public void draw(GL10 gl) {
         gl.glEnable(GL10.GL_CULL_FACE);
         gl.glFrontFace(GL10.GL_CW);

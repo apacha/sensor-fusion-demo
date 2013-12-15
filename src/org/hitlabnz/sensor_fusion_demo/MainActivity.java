@@ -11,6 +11,9 @@
 
 package org.hitlabnz.sensor_fusion_demo;
 
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.RotationVectorProvider;
+
 import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,16 +30,29 @@ import android.os.Bundle;
  * @see SensorManager
  * 
  */
-public class RotationVector extends Activity {
+public class MainActivity extends Activity {
+    /**
+     * The surface that will be drawn upon
+     */
     private GLSurfaceView mGLSurfaceView;
-    private SensorFuser mRenderer;
+    /**
+     * The class that renders the cube
+     */
+    private CubeRenderer mRenderer;
+    /**
+     * The current orientation provider that delivers device orientation.
+     */
+    private OrientationProvider currentOrientationProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialise the orientationProvider
+        currentOrientationProvider = new RotationVectorProvider((SensorManager) getSystemService(SENSOR_SERVICE));
         // Create our Preview view and set it as the content of our Activity
-        mRenderer = new SensorFuser((SensorManager) getSystemService(SENSOR_SERVICE));
+        mRenderer = new CubeRenderer();
+        mRenderer.setOrientationProvider(currentOrientationProvider);
         mGLSurfaceView = new GLSurfaceView(this);
         mGLSurfaceView.setRenderer(mRenderer);
         setContentView(mGLSurfaceView);
@@ -47,7 +63,7 @@ public class RotationVector extends Activity {
         // Ideally a game should implement onResume() and onPause()
         // to take appropriate action when the activity looses focus
         super.onResume();
-        mRenderer.start();
+        currentOrientationProvider.start();
         mGLSurfaceView.onResume();
     }
 
@@ -56,7 +72,7 @@ public class RotationVector extends Activity {
         // Ideally a game should implement onResume() and onPause()
         // to take appropriate action when the activity looses focus
         super.onPause();
-        mRenderer.stop();
+        currentOrientationProvider.stop();
         mGLSurfaceView.onPause();
     }
 }
