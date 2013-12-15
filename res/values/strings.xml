@@ -11,5 +11,6 @@
     <string name="title_section5">Gravity and Compass</string>
     <string name="title_section6">Accelerometer and Compass</string>
     <string name="title_activity_sensor_selection">Sensor fusion demo</string>
+    <string name="title_activity_about">About</string>
 
 </resources>

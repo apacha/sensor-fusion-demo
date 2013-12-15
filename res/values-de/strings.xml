@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sensorfusions Demo</string>
+    <string name="action_about">Über</string>
+    <string name="title_main_activity">Sensorfusions Demo</string>
+    <string name="title_section1">Improved Orientation Sensor 1</string>
+    <string name="title_section2">Improved Orientation Sensor 2</string>
+    <string name="title_section3">Android Rotation Vector</string>
+    <string name="title_section4">Kalibriertes Gyroskop</string>
+    <string name="title_section5">Gravitation und Kompass</string>
+    <string name="title_section6">Akzelerometer und Kompass</string>
+    <string name="title_activity_sensor_selection">Sensorfusions Demo</string>
+    <string name="title_activity_about">Über</string>
+
+</resources>

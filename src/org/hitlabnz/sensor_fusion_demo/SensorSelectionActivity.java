@@ -10,6 +10,7 @@ import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSe
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.RotationVectorProvider;
 
+import android.content.Intent;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -20,7 +21,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 
 /**
@@ -65,6 +68,18 @@ public class SensorSelectionActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sensor_selection, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.action_about:
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -199,6 +214,15 @@ public class SensorSelectionActivity extends FragmentActivity {
             mRenderer.setOrientationProvider(currentOrientationProvider);
             mGLSurfaceView = new GLSurfaceView(getActivity());
             mGLSurfaceView.setRenderer(mRenderer);
+
+            mGLSurfaceView.setOnLongClickListener(new OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+                    mRenderer.toggleShowCubeInsideOut();
+                    return true;
+                }
+            });
 
             return mGLSurfaceView;
         }
