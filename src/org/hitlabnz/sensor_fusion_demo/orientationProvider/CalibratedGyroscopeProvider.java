@@ -55,7 +55,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
     private double gyroscopeRotationVelocity = 0;
 
     /**
-     * Initialises a new GravityCompassProvider
+     * Initialises a new CalibratedGyroscopeProvider
      * 
      * @param sensorManager The android sensor manager
      */

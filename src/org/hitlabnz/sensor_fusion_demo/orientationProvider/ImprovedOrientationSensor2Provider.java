@@ -127,7 +127,7 @@ public class ImprovedOrientationSensor2Provider extends OrientationProvider {
     private static final int PANIC_THRESHOLD = 60;
 
     /**
-     * Initialises a new GravityCompassProvider
+     * Initialises a new ImprovedOrientationSensor2Provider
      * 
      * @param sensorManager The android sensor manager
      */

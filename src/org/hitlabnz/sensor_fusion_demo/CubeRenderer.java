@@ -59,9 +59,13 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glTranslatef(0, 0, -3.0f);
 
         if (orientationProvider != null) {
-            // Get the rotation from the current orientationProvider
+            // All Orientation providers deliver Quaternion as well as rotation matrix.
+            // Use your favourite representation:
+
+            // Get the rotation from the current orientationProvider as rotation matrix
             //gl.glMultMatrixf(orientationProvider.getRotationMatrix().getMatrix(), 0);
 
+            // Get the rotation from the current orientationProvider as quaternion
             Quaternion q = orientationProvider.getQuaternion();
             gl.glRotatef((float) (2.0f * Math.acos(q.getW()) * 180.0f / Math.PI), q.getX(), q.getY(), q.getZ());
         }

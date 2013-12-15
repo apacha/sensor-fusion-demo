@@ -1,4 +1,4 @@
-# Sensor fusion Demo for Android
+# Sensor fusion demo for Android
 
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
@@ -6,13 +6,13 @@ The major novelty in this application is the fusion of virtual sensors: **Improv
 
 Apart from these two sensors, the following sensors are available for comparison:
 
-- Accelerometer + Compass
-- Gravity + Compass
-- Android Rotation Vector (Kalman filter fusion of Accelerometer + Gyroscope + Compass)
-- Calibrated Gyroscope (Separate result of Kalman filter fusion of Accelerometer + Gyroscope + Compass)
 - Improved Orientation Sensor 1 (Sensor fusion of Android Rotation Vector and Calibrated Gyroscope - less stable but more accurate)
 - Improved Orientation Sensor 2 (Sensor fusion of Android Rotation Vector and Calibrated Gyroscope - more stable but less accurate)
-- Old Android Orientation Sensor (Complementary filter fusion of Accelerometer + Gyroscope + Compass)
+- Android Rotation Vector (Kalman filter fusion of Accelerometer + Gyroscope + Compass)
+- Calibrated Gyroscope (Separate result of Kalman filter fusion of Accelerometer + Gyroscope + Compass)
+- Gravity + Compass
+- Accelerometer + Compass
+- Deprecated Android Orientation Sensor (Complementary filter fusion of Accelerometer + Gyroscope + Compass)
 
 This application was developed for demonstrating the sensor fusion approach developed for my [Master Thesis "Sensor fusion for robust outdoor Augmented Reality tracking on mobile devices"](http://my-it.at/media/MasterThesis-Pacha.pdf) at the [Human Interface Technology Laboratory New Zealand](http://www.hitlabnz.org).
 
