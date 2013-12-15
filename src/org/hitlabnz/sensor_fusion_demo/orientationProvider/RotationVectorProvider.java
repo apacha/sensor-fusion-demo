@@ -1,11 +1,7 @@
 package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 
-import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
-import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 /**
@@ -15,27 +11,7 @@ import android.hardware.SensorManager;
  * @author Alexander Pacha
  * 
  */
-public class RotationVectorProvider implements SensorEventListener, OrientationProvider {
-
-    /**
-     * The rotation vector sensor that is being used for this provider to get device orientation
-     */
-    private Sensor rotationVectorSensor;
-
-    /**
-     * The matrix that holds the current rotation
-     */
-    private final Matrixf4x4 currentOrientationRotationMatrix;
-
-    /**
-     * The quaternion that holds the current rotation
-     */
-    private final Quaternion currentOrientationQuaternion;
-
-    /**
-     * The sensor manager for accessing android sensors
-     */
-    private SensorManager sensorManager;
+public class RotationVectorProvider extends OrientationProvider {
 
     /**
      * Initialises a new RotationVectorProvider
@@ -43,29 +19,10 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
      * @param sensorManager The android sensor manager
      */
     public RotationVectorProvider(SensorManager sensorManager) {
-        this.sensorManager = sensorManager;
+        super(sensorManager);
 
-        // find the rotation-vector sensor
-        rotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-
-        // Initialise with identity
-        currentOrientationRotationMatrix = new Matrixf4x4();
-
-        // Initialise with identity
-        currentOrientationQuaternion = new Quaternion();
-    }
-
-    @Override
-    public void start() {
-        // enable our sensor when the activity is resumed, ask for
-        // 10 ms updates.
-        sensorManager.registerListener(this, rotationVectorSensor, 10000);
-    }
-
-    @Override
-    public void stop() {
-        // make sure to turn our sensor off when the activity is paused
-        sensorManager.unregisterListener(this);
+        //The rotation vector sensor that is being used for this provider to get device orientation
+        sensorList.add(sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR));
     }
 
     @Override
@@ -84,20 +41,5 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
             SensorManager.getQuaternionFromVector(q, event.values);
             currentOrientationQuaternion.setXYZW(q[1], q[2], q[3], -q[0]);
         }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not doing anything
-    }
-
-    @Override
-    public Matrixf4x4 getRotationMatrix() {
-        return currentOrientationRotationMatrix;
-    }
-
-    @Override
-    public Quaternion getQuaternion() {
-        return currentOrientationQuaternion;
     }
 }

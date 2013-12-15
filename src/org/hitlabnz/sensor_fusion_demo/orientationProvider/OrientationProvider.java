@@ -3,8 +3,15 @@
  */
 package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
+
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
 /**
  * Classes implementing this interface provide an orientation of the device either by directly accessing hardware, using
@@ -15,26 +22,82 @@ import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
  * @author Alexander Pacha
  * 
  */
-public interface OrientationProvider {
+public abstract class OrientationProvider implements SensorEventListener {
 
     /**
-     * @return Returns the current rotation of the device in the rotation matrix format (4x4 matrix)
+     * The list of sensors used by this provider
      */
-    public Matrixf4x4 getRotationMatrix();
+    protected List<Sensor> sensorList = new ArrayList<Sensor>();
 
     /**
-     * @return Returns the current rotation of the device in the quaternion format (vector4f)
+     * The matrix that holds the current rotation
      */
-    public Quaternion getQuaternion();
+    protected final Matrixf4x4 currentOrientationRotationMatrix;
+
+    /**
+     * The quaternion that holds the current rotation
+     */
+    protected final Quaternion currentOrientationQuaternion;
+
+    /**
+     * The sensor manager for accessing android sensors
+     */
+    protected SensorManager sensorManager;
+
+    /**
+     * Initialises a new OrientationProvider
+     * 
+     * @param sensorManager The android sensor manager
+     */
+    public OrientationProvider(SensorManager sensorManager) {
+        this.sensorManager = sensorManager;
+
+        // Initialise with identity
+        currentOrientationRotationMatrix = new Matrixf4x4();
+
+        // Initialise with identity
+        currentOrientationQuaternion = new Quaternion();
+    }
 
     /**
      * Starts the sensor fusion (e.g. when resuming the activity)
      */
-    public void start();
+    public void start() {
+        // enable our sensor when the activity is resumed, ask for
+        // 10 ms updates.
+        for (Sensor sensor : sensorList) {
+            // enable our sensors when the activity is resumed, ask for
+            // 20 ms updates (Sensor_delay_game)
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+        }
+    }
 
     /**
      * Stops the sensor fusion (e.g. when pausing/suspending the activity)
      */
-    public void stop();
+    public void stop() {
+        // make sure to turn our sensors off when the activity is paused
+        for (Sensor sensor : sensorList) {
+            sensorManager.unregisterListener(this, sensor);
+        }
+    }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not doing anything
+    }
+
+    /**
+     * @return Returns the current rotation of the device in the rotation matrix format (4x4 matrix)
+     */
+    public Matrixf4x4 getRotationMatrix() {
+        return currentOrientationRotationMatrix;
+    }
+
+    /**
+     * @return Returns the current rotation of the device in the quaternion format (vector4f)
+     */
+    public Quaternion getQuaternion() {
+        return currentOrientationQuaternion;
+    }
 }
