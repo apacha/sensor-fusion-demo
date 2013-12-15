@@ -11,24 +11,16 @@
 
 package org.hitlabnz.sensor_fusion_demo;
 
+import org.hitlabnz.sensor_fusion_demo.orientationProvider.GravityCompassProvider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.RotationVectorProvider;
 
 import android.app.Activity;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 /**
- * Wrapper activity demonstrating the use of the new {@link SensorEvent#values rotation vector sensor} (
- * {@link Sensor#TYPE_ROTATION_VECTOR TYPE_ROTATION_VECTOR}).
- * 
- * @see Sensor
- * @see SensorEvent
- * @see SensorManager
- * 
+ * Main controller activity for demo-application. Processes user-input and delegates calls to orientation providers.
  */
 public class MainActivity extends Activity {
     /**
@@ -49,7 +41,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // Initialise the orientationProvider
-        currentOrientationProvider = new RotationVectorProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+        //currentOrientationProvider = new RotationVectorProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+        //currentOrientationProvider = new AccelerometerCompassProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+        currentOrientationProvider = new GravityCompassProvider((SensorManager) getSystemService(SENSOR_SERVICE));
+
         // Create our Preview view and set it as the content of our Activity
         mRenderer = new CubeRenderer();
         mRenderer.setOrientationProvider(currentOrientationProvider);
