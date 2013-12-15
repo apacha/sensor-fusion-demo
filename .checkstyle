@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fileset-config file-format-version="1.2.0" simple-config="true" sync-formatter="false">
+  <local-check-config name="Checkstyle-Configuration" location="C:\Users\Alex\Eclipse Workspace\Sensor-Fusion-Demo\Checkstyle.xml" type="external" description="Standard Checkstyle configuration with extra wide lines.">
+    <additional-data name="protect-config-file" value="false"/>
+  </local-check-config>
+  <fileset name="all" enabled="true" check-config-name="Checkstyle-Configuration" local="true">
+    <file-match-pattern match-pattern="." include-pattern="true"/>
+  </fileset>
+</fileset-config>
