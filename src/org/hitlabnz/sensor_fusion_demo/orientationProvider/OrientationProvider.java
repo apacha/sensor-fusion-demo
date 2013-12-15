@@ -4,6 +4,7 @@
 package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 
 import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
+import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
 /**
  * Classes implementing this interface provide an orientation of the device either by directly accessing hardware, using
@@ -17,10 +18,14 @@ import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
 public interface OrientationProvider {
 
     /**
-     * 
      * @return Returns the current rotation of the device in the rotation matrix format (4x4 matrix)
      */
     public Matrixf4x4 getRotationMatrix();
+
+    /**
+     * @return Returns the current rotation of the device in the quaternion format (vector4f)
+     */
+    public Quaternion getQuaternion();
 
     /**
      * Starts the sensor fusion (e.g. when resuming the activity)

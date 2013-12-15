@@ -1,6 +1,7 @@
 package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 
 import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
+import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,6 +28,11 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
     private final Matrixf4x4 currentOrientationRotationMatrix;
 
     /**
+     * The quaternion that holds the current rotation
+     */
+    private final Quaternion currentOrientationQuaternion;
+
+    /**
      * The sensor manager for accessing android sensors
      */
     private SensorManager sensorManager;
@@ -44,6 +50,9 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
 
         // Initialise with identity
         currentOrientationRotationMatrix = new Matrixf4x4();
+
+        // Initialise with identity
+        currentOrientationQuaternion = new Quaternion();
     }
 
     @Override
@@ -68,15 +77,27 @@ public class RotationVectorProvider implements SensorEventListener, OrientationP
             // is interpreted by Open GL as the inverse of the
             // rotation-vector, which is what we want.
             SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix, event.values);
+
+            // Get Quaternion
+            float[] q = new float[4];
+            // Calculate angle. Starting with API_18, Android will provide this value as event.values[3], but if not, we have to calculate it manually.
+            SensorManager.getQuaternionFromVector(q, event.values);
+            currentOrientationQuaternion.setXYZW(q[1], q[2], q[3], -q[0]);
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not doing anything
     }
 
     @Override
     public Matrixf4x4 getRotationMatrix() {
         return currentOrientationRotationMatrix;
+    }
+
+    @Override
+    public Quaternion getQuaternion() {
+        return currentOrientationQuaternion;
     }
 }

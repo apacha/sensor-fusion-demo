@@ -4,6 +4,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
+import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
 import android.opengl.GLSurfaceView;
 
@@ -59,7 +60,10 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
         if (orientationProvider != null) {
             // Get the rotation from the current orientationProvider
-            gl.glMultMatrixf(orientationProvider.getRotationMatrix().getMatrix(), 0);
+            //gl.glMultMatrixf(orientationProvider.getRotationMatrix().getMatrix(), 0);
+
+            Quaternion q = orientationProvider.getQuaternion();
+            gl.glRotatef((float) (2.0f * Math.acos(q.getW()) * 180.0f / Math.PI), q.getX(), q.getY(), q.getZ());
         }
 
         // draw our object
