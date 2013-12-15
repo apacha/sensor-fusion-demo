@@ -1,4 +1,4 @@
-# Sensor-Fusion Demo for Android
+# Sensor fusion Demo for Android
 
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
@@ -51,3 +51,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+This application also uses parts from the the Android Open Source Project, licensed under the [Apache License, Version 2.0]( http://www.apache.org/licenses/LICENSE-2.0).
