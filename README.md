@@ -12,7 +12,6 @@ Apart from these two sensors, the following sensors are available for comparison
 - Calibrated Gyroscope (Separate result of Kalman filter fusion of Accelerometer + Gyroscope + Compass)
 - Gravity + Compass
 - Accelerometer + Compass
-- Deprecated Android Orientation Sensor (Complementary filter fusion of Accelerometer + Gyroscope + Compass)
 
 This application was developed for demonstrating the sensor fusion approach developed for my [Master Thesis "Sensor fusion for robust outdoor Augmented Reality tracking on mobile devices"](http://my-it.at/media/MasterThesis-Pacha.pdf) at the [Human Interface Technology Laboratory New Zealand](http://www.hitlabnz.org).
 
