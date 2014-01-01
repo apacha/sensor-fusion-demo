@@ -104,7 +104,6 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
                 deltaQuaternion.setZ((float) (sinThetaOverTwo * axisZ));
                 deltaQuaternion.setW(-(float) cosThetaOverTwo);
 
-                //TODO I don't know why the gyroscope causes flickering sometimes, but synchronisation does not seem to help
                 // Matrix rendering in CubeRenderer does not seem to have this problem.
                 synchronized (syncToken) {
                     // Move current gyro orientation if gyroscope should be used
