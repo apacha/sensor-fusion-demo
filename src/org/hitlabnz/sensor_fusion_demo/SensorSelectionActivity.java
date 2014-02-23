@@ -10,6 +10,8 @@ import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSe
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
 import org.hitlabnz.sensor_fusion_demo.orientationProvider.RotationVectorProvider;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
@@ -61,9 +63,29 @@ public class SensorSelectionActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        // Check if device has a hardware gyroscope
+        SensorChecker checker = new HardwareChecker((SensorManager) getSystemService(SENSOR_SERVICE));
+        if(!checker.IsGyroscopeAvailable()) {
+        	// If a gyroscope is unavailable, display a warning.
+        	displayHardwareMissingWarning();
+        }
     }
 
-    @Override
+    private void displayHardwareMissingWarning() {
+    	AlertDialog ad = new AlertDialog.Builder(this).create();  
+    	ad.setCancelable(false); // This blocks the 'BACK' button    
+    	ad.setTitle(getResources().getString(R.string.gyroscope_missing)); 
+    	ad.setMessage(getResources().getString(R.string.gyroscope_missing_message));
+    	ad.setButton(DialogInterface.BUTTON_NEUTRAL, getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {  
+    	    @Override  
+    	    public void onClick(DialogInterface dialog, int which) {  
+    	        dialog.dismiss();                      
+    	    }  
+    	});  
+    	ad.show();  
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.sensor_selection, menu);
