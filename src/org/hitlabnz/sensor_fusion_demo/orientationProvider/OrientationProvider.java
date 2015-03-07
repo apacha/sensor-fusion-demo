@@ -6,6 +6,7 @@ package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hitlabnz.sensor_fusion_demo.representation.EulerAngles;
 import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
@@ -14,8 +15,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 /**
- * Classes implementing this interface provide an orientation of the device either by directly accessing hardware, using
- * Android sensor fusion or fusing sensors itself.
+ * Classes implementing this interface provide an orientation of the device
+ * either by directly accessing hardware, using Android sensor fusion or fusing
+ * sensors itself.
  * 
  * The orientation can be provided as rotation matrix or quaternion.
  * 
@@ -24,7 +26,8 @@ import android.hardware.SensorManager;
  */
 public abstract class OrientationProvider implements SensorEventListener {
     /**
-     * Sync-token for syncing read/write to sensor-data from sensor manager and fusion algorithm
+     * Sync-token for syncing read/write to sensor-data from sensor manager and
+     * fusion algorithm
      */
     protected final Object syncToken = new Object();
 
@@ -51,7 +54,8 @@ public abstract class OrientationProvider implements SensorEventListener {
     /**
      * Initialises a new OrientationProvider
      * 
-     * @param sensorManager The android sensor manager
+     * @param sensorManager
+     *            The android sensor manager
      */
     public OrientationProvider(SensorManager sensorManager) {
         this.sensorManager = sensorManager;
@@ -72,7 +76,8 @@ public abstract class OrientationProvider implements SensorEventListener {
         for (Sensor sensor : sensorList) {
             // enable our sensors when the activity is resumed, ask for
             // 20 ms updates (Sensor_delay_game)
-            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+            sensorManager.registerListener(this, sensor,
+                    SensorManager.SENSOR_DELAY_GAME);
         }
     }
 
@@ -92,7 +97,8 @@ public abstract class OrientationProvider implements SensorEventListener {
     }
 
     /**
-     * @return Returns the current rotation of the device in the rotation matrix format (4x4 matrix)
+     * @return Returns the current rotation of the device in the rotation matrix
+     *         format (4x4 matrix)
      */
     public Matrixf4x4 getRotationMatrix() {
         synchronized (syncToken) {
@@ -101,11 +107,24 @@ public abstract class OrientationProvider implements SensorEventListener {
     }
 
     /**
-     * @return Returns the current rotation of the device in the quaternion format (vector4f)
+     * @return Returns the current rotation of the device in the quaternion
+     *         format (vector4f)
      */
     public Quaternion getQuaternion() {
         synchronized (syncToken) {
             return currentOrientationQuaternion.clone();
+        }
+    }
+
+    /**
+     * @return Returns the current rotation of the device in the Euler-Angles
+     */
+    public EulerAngles getEulerAngles() {
+        synchronized (syncToken) {
+
+            float[] angles = new float[3];
+            SensorManager.getOrientation(currentOrientationRotationMatrix.matrix, angles);
+            return new EulerAngles(angles[0], angles[1], angles[2]);
         }
     }
 }
