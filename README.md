@@ -52,3 +52,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 This application also uses parts from the the Android Open Source Project, licensed under the [Apache License, Version 2.0]( http://www.apache.org/licenses/LICENSE-2.0).
+
+## Data privacy statement
+
+This application does not store or transmit any data.
