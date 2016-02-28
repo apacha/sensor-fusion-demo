@@ -7,5 +7,5 @@ public interface SensorChecker {
 	 * 
 	 * @return True, if a gyroscope is available. False otherwise.
 	 */
-	public boolean IsGyroscopeAvailable ();
+	public boolean IsGyroscopeAvailable();
 }
