@@ -17,7 +17,7 @@ This application was developed for demonstrating the sensor fusion approach deve
 
 ## Build and Install
 
-This project has an Eclipse project file for building and running the application. It is also published in the [Google Play Store](https://play.google.com/store/apps/details?id=org.hitlabnz.sensor_fusion_demo), if you just want to try it out: 
+This project is an Gradle-based Android Studio project. It is also published in the [Google Play Store](https://play.google.com/store/apps/details?id=org.hitlabnz.sensor_fusion_demo), if you just want to try it out. 
 
 ## Contributing
 
