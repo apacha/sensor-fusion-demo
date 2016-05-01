@@ -1,5 +1,7 @@
 # Sensor fusion demo for Android
 
+[![Build Status](https://www.bitrise.io/app/46b5cf7adea1286f.svg?token=MZUhPFZvIBiaTSEinY9zUQ&branch=master)](https://www.bitrise.io/app/46b5cf7adea1286f)
+
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
 The major novelty in this application is the fusion of virtual sensors: **Improved Orientation Sensor 1** and **Improved Orientation Sensor 2** fuse the Android Rotation Vector with the virtual Gyroscope sensor to achieve a pose estimation with a previously unknown stability and precision.
