@@ -6,11 +6,6 @@ package org.hitlabnz.sensor_fusion_demo.representation;
 public class Vector3f {
 
     /**
-     * ID for serialisation
-     */
-    private static final long serialVersionUID = -4565578579900616220L;
-
-    /**
      * A float array was chosen instead of individual variables due to performance concerns. Converting the points into
      * an array at run time can cause slowness so instead we use one array and extract the individual variables with get
      * methods.

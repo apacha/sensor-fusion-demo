@@ -21,11 +21,6 @@ package org.hitlabnz.sensor_fusion_demo.representation;
 public class Quaternion extends Vector4f {
 
     /**
-     * A randomly generated UID to make the Quaternion object serialisable.
-     */
-    private static final long serialVersionUID = -7148812599404359073L;
-
-    /**
      * Rotation matrix that contains the same rotation as the Quaternion in a 4x4 homogenised rotation matrix.
      * Remember that for performance reasons, this matrix is only updated, when it is accessed and not on every change
      * of the quaternion-values.

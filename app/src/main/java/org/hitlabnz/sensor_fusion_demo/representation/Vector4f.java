@@ -1,16 +1,10 @@
 package org.hitlabnz.sensor_fusion_demo.representation;
 
-import java.io.Serializable;
-
 /**
  * Representation of a four-dimensional float-vector
  */
-public class Vector4f implements Serializable {
+public class Vector4f {
 
-    /**
-     * ID for Serialisation
-     */
-    private static final long serialVersionUID = 1L;
     /** The points. */
     protected float points[] = { 0, 0, 0, 0 };
 
