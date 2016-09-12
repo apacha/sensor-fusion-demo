@@ -3,7 +3,7 @@ package org.hitlabnz.sensor_fusion_demo.representation;
 /**
  * 3-dimensional vector with conventient getters and setters. Additionally this class is serializable and
  */
-public class Vector3f extends Renderable {
+public class Vector3f {
 
     /**
      * ID for serialisation

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Representation of a four-dimensional float-vector
  */
-public class Vector4f extends Renderable implements Serializable {
+public class Vector4f implements Serializable {
 
     /**
      * ID for Serialisation
