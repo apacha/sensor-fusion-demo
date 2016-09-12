@@ -34,6 +34,8 @@ public class Quaternion extends Vector4f {
      * the matrix when someone wants to fetch it, instead of whenever someone sets a quaternion value.
      */
     private boolean dirty = false;
+    
+    private Vector4f tmpVector = new Vector4f();
 
     /**
      * Creates a new Quaternion object and initialises it with the identity Quaternion
@@ -44,6 +46,7 @@ public class Quaternion extends Vector4f {
         loadIdentityQuat();
     }
 
+    @SuppressWarnings("CloneDoesntCallSuperClone")
     @Override
     public Quaternion clone() {
         Quaternion clone = new Quaternion();
@@ -86,7 +89,7 @@ public class Quaternion extends Vector4f {
      * @param output
      */
     public void multiplyByQuat(Quaternion input, Quaternion output) {
-        Vector4f inputCopy = new Vector4f();
+
         if (input != output) {
             output.points[3] = (points[3] * input.points[3] - points[0] * input.points[0] - points[1] * input.points[1] - points[2]
                     * input.points[2]); //w = w1w2 - x1x2 - y1y2 - z1z2
@@ -97,19 +100,19 @@ public class Quaternion extends Vector4f {
             output.points[2] = (points[3] * input.points[2] + points[2] * input.points[3] + points[0] * input.points[1] - points[1]
                     * input.points[0]); //z = w1z2 + z1w2 + x1y2 - y1x2
         } else {
-            inputCopy.points[0] = input.points[0];
-            inputCopy.points[1] = input.points[1];
-            inputCopy.points[2] = input.points[2];
-            inputCopy.points[3] = input.points[3];
+            tmpVector.points[0] = input.points[0];
+            tmpVector.points[1] = input.points[1];
+            tmpVector.points[2] = input.points[2];
+            tmpVector.points[3] = input.points[3];
 
-            output.points[3] = (points[3] * inputCopy.points[3] - points[0] * inputCopy.points[0] - points[1]
-                    * inputCopy.points[1] - points[2] * inputCopy.points[2]); //w = w1w2 - x1x2 - y1y2 - z1z2
-            output.points[0] = (points[3] * inputCopy.points[0] + points[0] * inputCopy.points[3] + points[1]
-                    * inputCopy.points[2] - points[2] * inputCopy.points[1]); //x = w1x2 + x1w2 + y1z2 - z1y2
-            output.points[1] = (points[3] * inputCopy.points[1] + points[1] * inputCopy.points[3] + points[2]
-                    * inputCopy.points[0] - points[0] * inputCopy.points[2]); //y = w1y2 + y1w2 + z1x2 - x1z2
-            output.points[2] = (points[3] * inputCopy.points[2] + points[2] * inputCopy.points[3] + points[0]
-                    * inputCopy.points[1] - points[1] * inputCopy.points[0]); //z = w1z2 + z1w2 + x1y2 - y1x2
+            output.points[3] = (points[3] * tmpVector.points[3] - points[0] * tmpVector.points[0] - points[1]
+                    * tmpVector.points[1] - points[2] * tmpVector.points[2]); //w = w1w2 - x1x2 - y1y2 - z1z2
+            output.points[0] = (points[3] * tmpVector.points[0] + points[0] * tmpVector.points[3] + points[1]
+                    * tmpVector.points[2] - points[2] * tmpVector.points[1]); //x = w1x2 + x1w2 + y1z2 - z1y2
+            output.points[1] = (points[3] * tmpVector.points[1] + points[1] * tmpVector.points[3] + points[2]
+                    * tmpVector.points[0] - points[0] * tmpVector.points[2]); //y = w1y2 + y1w2 + z1x2 - x1z2
+            output.points[2] = (points[3] * tmpVector.points[2] + points[2] * tmpVector.points[3] + points[0]
+                    * tmpVector.points[1] - points[1] * tmpVector.points[0]); //z = w1z2 + z1w2 + x1y2 - y1x2
         }
     }
 
