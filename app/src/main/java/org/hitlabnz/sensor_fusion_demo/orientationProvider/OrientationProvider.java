@@ -6,7 +6,7 @@ package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
+import org.hitlabnz.sensor_fusion_demo.representation.MatrixF4x4;
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
 import android.hardware.Sensor;
@@ -38,7 +38,7 @@ public abstract class OrientationProvider implements SensorEventListener {
     /**
      * The matrix that holds the current rotation
      */
-    protected final Matrixf4x4 currentOrientationRotationMatrix;
+    protected final MatrixF4x4 currentOrientationRotationMatrix;
 
     /**
      * The quaternion that holds the current rotation
@@ -60,7 +60,7 @@ public abstract class OrientationProvider implements SensorEventListener {
         this.sensorManager = sensorManager;
 
         // Initialise with identity
-        currentOrientationRotationMatrix = new Matrixf4x4();
+        currentOrientationRotationMatrix = new MatrixF4x4();
 
         // Initialise with identity
         currentOrientationQuaternion = new Quaternion();
@@ -98,7 +98,7 @@ public abstract class OrientationProvider implements SensorEventListener {
     /**
      * Get the current rotation of the device in the rotation matrix format (4x4 matrix)
      */
-    public void getRotationMatrix(Matrixf4x4 matrix) {
+    public void getRotationMatrix(MatrixF4x4 matrix) {
         synchronized (syncToken) {
             matrix.set(currentOrientationRotationMatrix);
         }

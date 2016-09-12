@@ -30,7 +30,7 @@ public class Quaternion extends Vector4f {
      * Remember that for performance reasons, this matrix is only updated, when it is accessed and not on every change
      * of the quaternion-values.
      */
-    private Matrixf4x4 matrix;
+    private MatrixF4x4 matrix;
 
     /**
      * This variable is used to synchronise the rotation matrix with the current quaternion values. If someone has
@@ -45,7 +45,7 @@ public class Quaternion extends Vector4f {
      */
     public Quaternion() {
         super();
-        matrix = new Matrixf4x4();
+        matrix = new MatrixF4x4();
         loadIdentityQuat();
     }
 
@@ -302,15 +302,15 @@ public class Quaternion extends Vector4f {
 
         if (this.matrix.size() == 16) {
             if (this.matrix.isColumnMajor()) {
-                indices = Matrixf4x4.matIndCol16_3x3;
+                indices = MatrixF4x4.matIndCol16_3x3;
             } else {
-                indices = Matrixf4x4.matIndRow16_3x3;
+                indices = MatrixF4x4.matIndRow16_3x3;
             }
         } else {
             if (this.matrix.isColumnMajor()) {
-                indices = Matrixf4x4.matIndCol9_3x3;
+                indices = MatrixF4x4.matIndCol9_3x3;
             } else {
-                indices = Matrixf4x4.matIndRow9_3x3;
+                indices = MatrixF4x4.matIndRow9_3x3;
             }
         }
 
@@ -445,7 +445,7 @@ public class Quaternion extends Vector4f {
     /**
      * @return Returns this Quaternion in the Rotation Matrix representation
      */
-    public Matrixf4x4 getMatrix4x4() {
+    public MatrixF4x4 getMatrix4x4() {
         //toMatrixColMajor();
         if (dirty) {
             convertQuatToMatrix();
