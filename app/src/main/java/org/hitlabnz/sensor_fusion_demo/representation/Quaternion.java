@@ -47,14 +47,6 @@ public class Quaternion extends Vector4f {
         loadIdentityQuat();
     }
 
-    @SuppressWarnings("CloneDoesntCallSuperClone")
-    @Override
-    public Quaternion clone() {
-        Quaternion clone = new Quaternion();
-        clone.copyVec4(this);
-        return clone;
-    }
-
     /**
      * Normalise this Quaternion into a unity Quaternion.
      */
