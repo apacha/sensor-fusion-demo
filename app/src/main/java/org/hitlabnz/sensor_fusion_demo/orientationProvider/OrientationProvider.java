@@ -106,12 +106,11 @@ public abstract class OrientationProvider implements SensorEventListener {
     }
 
     /**
-     * @return Returns the current rotation of the device in the quaternion
-     *         format (vector4f)
+     * Get the current rotation of the device in the quaternion format (vector4f)
      */
-    public Quaternion getQuaternion() {
+    public void getQuaternion(Quaternion quaternion) {
         synchronized (syncToken) {
-            return currentOrientationQuaternion.clone();
+            quaternion.set(currentOrientationQuaternion);
         }
     }
 
