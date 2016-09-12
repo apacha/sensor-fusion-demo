@@ -16,12 +16,17 @@ public class AccelerometerCompassProvider extends OrientationProvider {
     /**
      * Compass values
      */
-    private float[] magnitudeValues = new float[3];
+    final private float[] magnitudeValues = new float[3];
 
     /**
      * Accelerometer values
      */
-    private float[] accelerometerValues = new float[3];
+    final private float[] accelerometerValues = new float[3];
+
+    /**
+     * Temporary variable to save allocations
+     */
+    final float[] tmpFloat = new float[16];
 
     /**
      * Initialises a new AccelerometerCompassProvider
@@ -42,16 +47,14 @@ public class AccelerometerCompassProvider extends OrientationProvider {
         // we received a sensor event. it is a good practice to check
         // that we received the proper event
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            magnitudeValues = event.values.clone();
+            System.arraycopy(event.values, 0, magnitudeValues, 0, magnitudeValues.length);
         } else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            accelerometerValues = event.values.clone();
+            System.arraycopy(event.values, 0, accelerometerValues, 0, accelerometerValues.length);
         }
 
         if (magnitudeValues != null && accelerometerValues != null) {
-            float[] i = new float[16];
-
             // Fuse accelerometer with compass
-            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, i, accelerometerValues,
+            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, tmpFloat, accelerometerValues,
                     magnitudeValues);
             // Transform rotation matrix to quaternion
             currentOrientationQuaternion.setRowMajor(currentOrientationRotationMatrix.matrix);

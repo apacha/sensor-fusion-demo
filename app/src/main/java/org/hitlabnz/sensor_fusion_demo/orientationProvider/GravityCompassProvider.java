@@ -16,12 +16,17 @@ public class GravityCompassProvider extends OrientationProvider {
     /**
      * Compass values
      */
-    private float[] magnitudeValues = new float[3];
+    final private float[] magnitudeValues = new float[3];
 
     /**
      * Gravity values
      */
-    private float[] gravityValues = new float[3];
+    final private float[] gravityValues = new float[3];
+
+    /**
+     * Temporary variable to save some allocations
+     */
+    float[] tmpFloat = new float[16];
 
     /**
      * Initialises a new GravityCompassProvider
@@ -42,16 +47,14 @@ public class GravityCompassProvider extends OrientationProvider {
         // we received a sensor event. it is a good practice to check
         // that we received the proper event
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            magnitudeValues = event.values.clone();
+            System.arraycopy(event.values, 0, magnitudeValues, 0, magnitudeValues.length);
         } else if (event.sensor.getType() == Sensor.TYPE_GRAVITY) {
-            gravityValues = event.values.clone();
+            System.arraycopy(event.values, 0, gravityValues, 0, gravityValues.length);
         }
 
         if (magnitudeValues != null && gravityValues != null) {
-            float[] i = new float[16];
-
             // Fuse gravity-sensor (virtual sensor) with compass
-            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, i, gravityValues, magnitudeValues);
+            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, tmpFloat, gravityValues, magnitudeValues);
             // Transform rotation matrix to quaternion
             currentOrientationQuaternion.setRowMajor(currentOrientationRotationMatrix.matrix);
         }
