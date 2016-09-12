@@ -106,7 +106,7 @@ public class MatrixF4x4 {
             float z = 0;
             float w = 0;
 
-            float[] vectorArray = vector.ToArray();
+            float[] vectorArray = vector.array();
 
             if (colMaj) {
                 for (int i = 0; i < 4; i++) {

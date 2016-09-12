@@ -118,7 +118,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
                 synchronized (syncToken) {
                     // Set the rotation matrix as well to have both representations
                     SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix,
-                            correctedQuat.ToArray());
+                            correctedQuat.array());
                 }
             }
             timestamp = event.timestamp;

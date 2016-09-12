@@ -268,7 +268,7 @@ public class ImprovedOrientationSensor2Provider extends OrientationProvider {
             currentOrientationQuaternion.copyVec4(quaternion);
 
             // Set the rotation matrix as well to have both representations
-            SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix, correctedQuat.ToArray());
+            SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix, correctedQuat.array());
         }
     }
 }

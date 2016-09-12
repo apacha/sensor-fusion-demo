@@ -45,7 +45,7 @@ public class Vector4f {
      * 
      * @return the float[]
      */
-    public float[] ToArray() {
+    public float[] array() {
         return points;
     }
 
