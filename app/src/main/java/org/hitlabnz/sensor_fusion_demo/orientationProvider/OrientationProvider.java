@@ -96,12 +96,11 @@ public abstract class OrientationProvider implements SensorEventListener {
     }
 
     /**
-     * @return Returns the current rotation of the device in the rotation matrix
-     *         format (4x4 matrix)
+     * Get the current rotation of the device in the rotation matrix format (4x4 matrix)
      */
-    public Matrixf4x4 getRotationMatrix() {
+    public void getRotationMatrix(Matrixf4x4 matrix) {
         synchronized (syncToken) {
-            return currentOrientationRotationMatrix;
+            matrix.set(currentOrientationRotationMatrix);
         }
     }
 
