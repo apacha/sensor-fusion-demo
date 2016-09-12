@@ -34,8 +34,9 @@ public class Quaternion extends Vector4f {
      * the matrix when someone wants to fetch it, instead of whenever someone sets a quaternion value.
      */
     private boolean dirty = false;
-    
+
     private Vector4f tmpVector = new Vector4f();
+    private Quaternion tmpQuaternion;
 
     /**
      * Creates a new Quaternion object and initialises it with the identity Quaternion
@@ -122,16 +123,12 @@ public class Quaternion extends Vector4f {
      * @param input
      * @param output
      */
-    Quaternion bufferQuaternion;
-
     public void multiplyByQuat(Quaternion input) {
-        if (bufferQuaternion == null) {
-            bufferQuaternion = new Quaternion();
-        }
         this.dirty = true;
-        bufferQuaternion.copyVec4(this);
-        multiplyByQuat(input, bufferQuaternion);
-        this.copyVec4(bufferQuaternion);
+        if(tmpQuaternion == null) tmpQuaternion = new Quaternion();
+        tmpQuaternion.copyVec4(this);
+        multiplyByQuat(input, tmpQuaternion);
+        this.copyVec4(tmpQuaternion);
     }
 
     /**
@@ -468,11 +465,12 @@ public class Quaternion extends Vector4f {
     public void slerp(Quaternion input, Quaternion output, float t) {
         // Calculate angle between them.
         //double cosHalftheta = this.dotProduct(input);
-        Quaternion bufferQuat = null;
+        Quaternion bufferQuat;
         float cosHalftheta = this.dotProduct(input);
 
         if (cosHalftheta < 0) {
-            bufferQuat = new Quaternion();
+            if(tmpQuaternion == null) tmpQuaternion = new Quaternion();
+            bufferQuat = tmpQuaternion;
             cosHalftheta = -cosHalftheta;
             bufferQuat.points[0] = (-input.points[0]);
             bufferQuat.points[1] = (-input.points[1]);
