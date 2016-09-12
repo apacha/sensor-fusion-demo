@@ -269,11 +269,8 @@ public class Vector3f {
      * 
      * @param source The vector you want to clone.
      */
-    public void clone(Vector3f source) {
-        // this.points[0] = source.points[0];
-        // this.points[1] = source.points[1];
-        // this.points[2] = source.points[2];
-        System.arraycopy(source.points, 0, points, 0, 3);
+    public void set(Vector3f source) {
+        set(source.points);
     }
 
     /**
@@ -281,10 +278,7 @@ public class Vector3f {
      * 
      * @param source The vector you want to clone.
      */
-    public void clone(float[] source) {
-        // this.points[0] = source[0];
-        // this.points[1] = source[1];
-        // this.points[2] = source[2];
+    public void set(float[] source) {
         System.arraycopy(source, 0, points, 0, 3);
     }
 }
