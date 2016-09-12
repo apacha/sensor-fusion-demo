@@ -390,7 +390,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[3]] = value;
             else
                 matrix[matIndRow16_4x4[3]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
     public void setY3(float value) {
@@ -400,7 +401,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[7]] = value;
             else
                 matrix[matIndRow16_4x4[7]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
     public void setZ3(float value) {
@@ -410,7 +412,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[11]] = value;
             else
                 matrix[matIndRow16_4x4[11]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
     public void setW0(float value) {
@@ -420,7 +423,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[12]] = value;
             else
                 matrix[matIndRow16_4x4[12]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
     public void setW1(float value) {
@@ -430,7 +434,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[13]] = value;
             else
                 matrix[matIndRow16_4x4[13]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
     public void setW2(float value) {
@@ -440,7 +445,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[14]] = value;
             else
                 matrix[matIndRow16_4x4[14]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
     public void setW3(float value) {
@@ -450,7 +456,8 @@ public class MatrixF4x4 {
                 matrix[matIndCol16_4x4[15]] = value;
             else
                 matrix[matIndRow16_4x4[15]] = value;
-        }
+        }else
+            throw new IllegalStateException("length of matrix should be 16");
     }
 
 }
