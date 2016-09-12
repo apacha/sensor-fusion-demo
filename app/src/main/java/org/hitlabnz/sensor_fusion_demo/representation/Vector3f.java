@@ -243,13 +243,7 @@ public class Vector3f {
         outputVec.setY(points[2] * inputVec.points[0] - points[0] * inputVec.points[2]);
         outputVec.setZ(points[0] * inputVec.points[1] - points[1] * inputVec.points[0]);
     }
-
-    public Vector3f crossProduct(Vector3f in) {
-        Vector3f out = new Vector3f();
-        crossProduct(in, out);
-        return out;
-    }
-
+    
     /**
      * If you need to get the length of a vector then use this function.
      * 
