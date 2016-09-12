@@ -6,7 +6,6 @@ package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hitlabnz.sensor_fusion_demo.representation.EulerAngles;
 import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
@@ -117,14 +116,11 @@ public abstract class OrientationProvider implements SensorEventListener {
     }
 
     /**
-     * @return Returns the current rotation of the device in the Euler-Angles
+     * Get the current rotation of the device in the Euler angles
      */
-    public EulerAngles getEulerAngles() {
+    public void getEulerAngles(float angles[]) {
         synchronized (syncToken) {
-
-            float[] angles = new float[3];
             SensorManager.getOrientation(currentOrientationRotationMatrix.matrix, angles);
-            return new EulerAngles(angles[0], angles[1], angles[2]);
         }
     }
 }
