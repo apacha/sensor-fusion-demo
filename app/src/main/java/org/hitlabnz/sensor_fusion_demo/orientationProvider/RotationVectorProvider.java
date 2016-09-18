@@ -13,6 +13,12 @@ import android.hardware.SensorManager;
  */
 public class RotationVectorProvider extends OrientationProvider {
 
+
+    /**
+     * Temporary variable to save allocation
+     */
+    final private float[] tmpFloat = new float[4];
+
     /**
      * Initialises a new RotationVectorProvider
      * 
@@ -36,10 +42,9 @@ public class RotationVectorProvider extends OrientationProvider {
             SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix, event.values);
 
             // Get Quaternion
-            float[] q = new float[4];
             // Calculate angle. Starting with API_18, Android will provide this value as event.values[3], but if not, we have to calculate it manually.
-            SensorManager.getQuaternionFromVector(q, event.values);
-            currentOrientationQuaternion.setXYZW(q[1], q[2], q[3], -q[0]);
+            SensorManager.getQuaternionFromVector(tmpFloat, event.values);
+            currentOrientationQuaternion.setXYZW(tmpFloat[1], tmpFloat[2], tmpFloat[3], -tmpFloat[0]);
         }
     }
 }

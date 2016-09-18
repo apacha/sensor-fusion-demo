@@ -55,6 +55,11 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
     private double gyroscopeRotationVelocity = 0;
 
     /**
+     * Temporary variable to save allocations.
+     */
+    private Quaternion correctedQuat = new Quaternion();
+
+    /**
      * Initialises a new CalibratedGyroscopeProvider
      * 
      * @param sensorManager The android sensor manager
@@ -110,7 +115,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
                     deltaQuaternion.multiplyByQuat(currentOrientationQuaternion, currentOrientationQuaternion);
                 }
 
-                Quaternion correctedQuat = currentOrientationQuaternion.clone();
+                correctedQuat.set(currentOrientationQuaternion);
                 // We inverted w in the deltaQuaternion, because currentOrientationQuaternion required it.
                 // Before converting it back to matrix representation, we need to revert this process
                 correctedQuat.w(-correctedQuat.w());
@@ -118,7 +123,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
                 synchronized (syncToken) {
                     // Set the rotation matrix as well to have both representations
                     SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix,
-                            correctedQuat.ToArray());
+                            correctedQuat.array());
                 }
             }
             timestamp = event.timestamp;

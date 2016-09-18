@@ -21,16 +21,11 @@ package org.hitlabnz.sensor_fusion_demo.representation;
 public class Quaternion extends Vector4f {
 
     /**
-     * A randomly generated UID to make the Quaternion object serialisable.
-     */
-    private static final long serialVersionUID = -7148812599404359073L;
-
-    /**
      * Rotation matrix that contains the same rotation as the Quaternion in a 4x4 homogenised rotation matrix.
      * Remember that for performance reasons, this matrix is only updated, when it is accessed and not on every change
      * of the quaternion-values.
      */
-    private Matrixf4x4 matrix;
+    private MatrixF4x4 matrix;
 
     /**
      * This variable is used to synchronise the rotation matrix with the current quaternion values. If someone has
@@ -40,20 +35,16 @@ public class Quaternion extends Vector4f {
      */
     private boolean dirty = false;
 
+    private Vector4f tmpVector = new Vector4f();
+    private Quaternion tmpQuaternion;
+
     /**
      * Creates a new Quaternion object and initialises it with the identity Quaternion
      */
     public Quaternion() {
         super();
-        matrix = new Matrixf4x4();
+        matrix = new MatrixF4x4();
         loadIdentityQuat();
-    }
-
-    @Override
-    public Quaternion clone() {
-        Quaternion clone = new Quaternion();
-        clone.copyVec4(this);
-        return clone;
     }
 
     /**
@@ -91,7 +82,7 @@ public class Quaternion extends Vector4f {
      * @param output
      */
     public void multiplyByQuat(Quaternion input, Quaternion output) {
-        Vector4f inputCopy = new Vector4f();
+
         if (input != output) {
             output.points[3] = (points[3] * input.points[3] - points[0] * input.points[0] - points[1] * input.points[1] - points[2]
                     * input.points[2]); //w = w1w2 - x1x2 - y1y2 - z1z2
@@ -102,19 +93,19 @@ public class Quaternion extends Vector4f {
             output.points[2] = (points[3] * input.points[2] + points[2] * input.points[3] + points[0] * input.points[1] - points[1]
                     * input.points[0]); //z = w1z2 + z1w2 + x1y2 - y1x2
         } else {
-            inputCopy.points[0] = input.points[0];
-            inputCopy.points[1] = input.points[1];
-            inputCopy.points[2] = input.points[2];
-            inputCopy.points[3] = input.points[3];
+            tmpVector.points[0] = input.points[0];
+            tmpVector.points[1] = input.points[1];
+            tmpVector.points[2] = input.points[2];
+            tmpVector.points[3] = input.points[3];
 
-            output.points[3] = (points[3] * inputCopy.points[3] - points[0] * inputCopy.points[0] - points[1]
-                    * inputCopy.points[1] - points[2] * inputCopy.points[2]); //w = w1w2 - x1x2 - y1y2 - z1z2
-            output.points[0] = (points[3] * inputCopy.points[0] + points[0] * inputCopy.points[3] + points[1]
-                    * inputCopy.points[2] - points[2] * inputCopy.points[1]); //x = w1x2 + x1w2 + y1z2 - z1y2
-            output.points[1] = (points[3] * inputCopy.points[1] + points[1] * inputCopy.points[3] + points[2]
-                    * inputCopy.points[0] - points[0] * inputCopy.points[2]); //y = w1y2 + y1w2 + z1x2 - x1z2
-            output.points[2] = (points[3] * inputCopy.points[2] + points[2] * inputCopy.points[3] + points[0]
-                    * inputCopy.points[1] - points[1] * inputCopy.points[0]); //z = w1z2 + z1w2 + x1y2 - y1x2
+            output.points[3] = (points[3] * tmpVector.points[3] - points[0] * tmpVector.points[0] - points[1]
+                    * tmpVector.points[1] - points[2] * tmpVector.points[2]); //w = w1w2 - x1x2 - y1y2 - z1z2
+            output.points[0] = (points[3] * tmpVector.points[0] + points[0] * tmpVector.points[3] + points[1]
+                    * tmpVector.points[2] - points[2] * tmpVector.points[1]); //x = w1x2 + x1w2 + y1z2 - z1y2
+            output.points[1] = (points[3] * tmpVector.points[1] + points[1] * tmpVector.points[3] + points[2]
+                    * tmpVector.points[0] - points[0] * tmpVector.points[2]); //y = w1y2 + y1w2 + z1x2 - x1z2
+            output.points[2] = (points[3] * tmpVector.points[2] + points[2] * tmpVector.points[3] + points[0]
+                    * tmpVector.points[1] - points[1] * tmpVector.points[0]); //z = w1z2 + z1w2 + x1y2 - y1x2
         }
     }
 
@@ -124,16 +115,12 @@ public class Quaternion extends Vector4f {
      * @param input
      * @param output
      */
-    Quaternion bufferQuaternion;
-
     public void multiplyByQuat(Quaternion input) {
-        if (bufferQuaternion == null) {
-            bufferQuaternion = new Quaternion();
-        }
         this.dirty = true;
-        bufferQuaternion.copyVec4(this);
-        multiplyByQuat(input, bufferQuaternion);
-        this.copyVec4(bufferQuaternion);
+        if(tmpQuaternion == null) tmpQuaternion = new Quaternion();
+        tmpQuaternion.copyVec4(this);
+        multiplyByQuat(input, tmpQuaternion);
+        this.copyVec4(tmpQuaternion);
     }
 
     /**
@@ -302,15 +289,15 @@ public class Quaternion extends Vector4f {
 
         if (this.matrix.size() == 16) {
             if (this.matrix.isColumnMajor()) {
-                indices = Matrixf4x4.matIndCol16_3x3;
+                indices = MatrixF4x4.matIndCol16_3x3;
             } else {
-                indices = Matrixf4x4.matIndRow16_3x3;
+                indices = MatrixF4x4.matIndRow16_3x3;
             }
         } else {
             if (this.matrix.isColumnMajor()) {
-                indices = Matrixf4x4.matIndCol9_3x3;
+                indices = MatrixF4x4.matIndCol9_3x3;
             } else {
-                indices = Matrixf4x4.matIndRow9_3x3;
+                indices = MatrixF4x4.matIndRow9_3x3;
             }
         }
 
@@ -445,7 +432,7 @@ public class Quaternion extends Vector4f {
     /**
      * @return Returns this Quaternion in the Rotation Matrix representation
      */
-    public Matrixf4x4 getMatrix4x4() {
+    public MatrixF4x4 getMatrix4x4() {
         //toMatrixColMajor();
         if (dirty) {
             convertQuatToMatrix();
@@ -470,11 +457,12 @@ public class Quaternion extends Vector4f {
     public void slerp(Quaternion input, Quaternion output, float t) {
         // Calculate angle between them.
         //double cosHalftheta = this.dotProduct(input);
-        Quaternion bufferQuat = null;
+        Quaternion bufferQuat;
         float cosHalftheta = this.dotProduct(input);
 
         if (cosHalftheta < 0) {
-            bufferQuat = new Quaternion();
+            if(tmpQuaternion == null) tmpQuaternion = new Quaternion();
+            bufferQuat = tmpQuaternion;
             cosHalftheta = -cosHalftheta;
             bufferQuat.points[0] = (-input.points[0]);
             bufferQuat.points[1] = (-input.points[1]);

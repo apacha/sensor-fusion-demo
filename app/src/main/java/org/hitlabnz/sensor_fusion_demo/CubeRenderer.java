@@ -25,6 +25,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
      * The current provider of the device orientation.
      */
     private OrientationProvider orientationProvider = null;
+    private Quaternion quaternion = new Quaternion();
 
     /**
      * Initialises a new CubeRenderer
@@ -69,8 +70,8 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
                 //gl.glMultMatrixf(orientationProvider.getRotationMatrix().getMatrix(), 0);
 
                 // Get the rotation from the current orientationProvider as quaternion
-                Quaternion q = orientationProvider.getQuaternion();
-                gl.glRotatef((float) (2.0f * Math.acos(q.getW()) * 180.0f / Math.PI), q.getX(), q.getY(), q.getZ());
+                orientationProvider.getQuaternion(quaternion);
+                gl.glRotatef((float) (2.0f * Math.acos(quaternion.getW()) * 180.0f / Math.PI), quaternion.getX(), quaternion.getY(), quaternion.getZ());
             }
 
             // draw our object
@@ -88,8 +89,8 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
                 //gl.glMultMatrixf(orientationProvider.getRotationMatrix().getMatrix(), 0);
 
                 // Get the rotation from the current orientationProvider as quaternion
-                Quaternion q = orientationProvider.getQuaternion();
-                gl.glRotatef((float) (2.0f * Math.acos(q.getW()) * 180.0f / Math.PI), q.getX(), q.getY(), q.getZ());
+                orientationProvider.getQuaternion(quaternion);
+                gl.glRotatef((float) (2.0f * Math.acos(quaternion.getW()) * 180.0f / Math.PI), quaternion.getX(), quaternion.getY(), quaternion.getZ());
             }
 
             float dist = 3;

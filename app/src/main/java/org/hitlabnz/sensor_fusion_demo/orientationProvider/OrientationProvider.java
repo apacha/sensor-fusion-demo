@@ -6,8 +6,7 @@ package org.hitlabnz.sensor_fusion_demo.orientationProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hitlabnz.sensor_fusion_demo.representation.EulerAngles;
-import org.hitlabnz.sensor_fusion_demo.representation.Matrixf4x4;
+import org.hitlabnz.sensor_fusion_demo.representation.MatrixF4x4;
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
 
 import android.hardware.Sensor;
@@ -39,7 +38,7 @@ public abstract class OrientationProvider implements SensorEventListener {
     /**
      * The matrix that holds the current rotation
      */
-    protected final Matrixf4x4 currentOrientationRotationMatrix;
+    protected final MatrixF4x4 currentOrientationRotationMatrix;
 
     /**
      * The quaternion that holds the current rotation
@@ -61,7 +60,7 @@ public abstract class OrientationProvider implements SensorEventListener {
         this.sensorManager = sensorManager;
 
         // Initialise with identity
-        currentOrientationRotationMatrix = new Matrixf4x4();
+        currentOrientationRotationMatrix = new MatrixF4x4();
 
         // Initialise with identity
         currentOrientationQuaternion = new Quaternion();
@@ -97,34 +96,29 @@ public abstract class OrientationProvider implements SensorEventListener {
     }
 
     /**
-     * @return Returns the current rotation of the device in the rotation matrix
-     *         format (4x4 matrix)
+     * Get the current rotation of the device in the rotation matrix format (4x4 matrix)
      */
-    public Matrixf4x4 getRotationMatrix() {
+    public void getRotationMatrix(MatrixF4x4 matrix) {
         synchronized (syncToken) {
-            return currentOrientationRotationMatrix;
+            matrix.set(currentOrientationRotationMatrix);
         }
     }
 
     /**
-     * @return Returns the current rotation of the device in the quaternion
-     *         format (vector4f)
+     * Get the current rotation of the device in the quaternion format (vector4f)
      */
-    public Quaternion getQuaternion() {
+    public void getQuaternion(Quaternion quaternion) {
         synchronized (syncToken) {
-            return currentOrientationQuaternion.clone();
+            quaternion.set(currentOrientationQuaternion);
         }
     }
 
     /**
-     * @return Returns the current rotation of the device in the Euler-Angles
+     * Get the current rotation of the device in the Euler angles
      */
-    public EulerAngles getEulerAngles() {
+    public void getEulerAngles(float angles[]) {
         synchronized (syncToken) {
-
-            float[] angles = new float[3];
             SensorManager.getOrientation(currentOrientationRotationMatrix.matrix, angles);
-            return new EulerAngles(angles[0], angles[1], angles[2]);
         }
     }
 }

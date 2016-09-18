@@ -3,12 +3,7 @@ package org.hitlabnz.sensor_fusion_demo.representation;
 /**
  * 3-dimensional vector with conventient getters and setters. Additionally this class is serializable and
  */
-public class Vector3f extends Renderable {
-
-    /**
-     * ID for serialisation
-     */
-    private static final long serialVersionUID = -4565578579900616220L;
+public class Vector3f {
 
     /**
      * A float array was chosen instead of individual variables due to performance concerns. Converting the points into
@@ -248,13 +243,7 @@ public class Vector3f extends Renderable {
         outputVec.setY(points[2] * inputVec.points[0] - points[0] * inputVec.points[2]);
         outputVec.setZ(points[0] * inputVec.points[1] - points[1] * inputVec.points[0]);
     }
-
-    public Vector3f crossProduct(Vector3f in) {
-        Vector3f out = new Vector3f();
-        crossProduct(in, out);
-        return out;
-    }
-
+    
     /**
      * If you need to get the length of a vector then use this function.
      * 
@@ -274,11 +263,8 @@ public class Vector3f extends Renderable {
      * 
      * @param source The vector you want to clone.
      */
-    public void clone(Vector3f source) {
-        // this.points[0] = source.points[0];
-        // this.points[1] = source.points[1];
-        // this.points[2] = source.points[2];
-        System.arraycopy(source.points, 0, points, 0, 3);
+    public void set(Vector3f source) {
+        set(source.points);
     }
 
     /**
@@ -286,10 +272,7 @@ public class Vector3f extends Renderable {
      * 
      * @param source The vector you want to clone.
      */
-    public void clone(float[] source) {
-        // this.points[0] = source[0];
-        // this.points[1] = source[1];
-        // this.points[2] = source[2];
+    public void set(float[] source) {
         System.arraycopy(source, 0, points, 0, 3);
     }
 }
