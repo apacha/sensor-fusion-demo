@@ -129,9 +129,9 @@ public class ImprovedOrientationSensor1Provider extends OrientationProvider {
     /**
      * Some temporary variables to save allocations
      */
-    final private float[] tmpFloat = new float[4];
+    final private float[] temporaryQuaternion = new float[4];
     final private Quaternion correctedQuaternion = new Quaternion();
-    final private Quaternion interpolateQuaternion = new Quaternion();
+    final private Quaternion interpolatedQuaternion = new Quaternion();
 
     /**
      * Initialises a new ImprovedOrientationSensor1Provider
@@ -152,10 +152,10 @@ public class ImprovedOrientationSensor1Provider extends OrientationProvider {
         if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
             // Process rotation vector (just safe it)
             // Calculate angle. Starting with API_18, Android will provide this value as event.values[3], but if not, we have to calculate it manually.
-            SensorManager.getQuaternionFromVector(tmpFloat, event.values);
+            SensorManager.getQuaternionFromVector(temporaryQuaternion, event.values);
 
             // Store in quaternion
-            quaternionRotationVector.setXYZW(tmpFloat[1], tmpFloat[2], tmpFloat[3], -tmpFloat[0]);
+            quaternionRotationVector.setXYZW(temporaryQuaternion[1], temporaryQuaternion[2], temporaryQuaternion[3], -temporaryQuaternion[0]);
             if (!positionInitialised) {
                 // Override
                 quaternionGyroscope.set(quaternionRotationVector);
@@ -218,12 +218,12 @@ public class ImprovedOrientationSensor1Provider extends OrientationProvider {
 
                     // Interpolate with a fixed weight between the two absolute quaternions obtained from gyro and rotation vector sensors
                     // The weight should be quite low, so the rotation vector corrects the gyro only slowly, and the output keeps responsive.
-                    quaternionGyroscope.slerp(quaternionRotationVector, interpolateQuaternion, DIRECT_INTERPOLATION_WEIGHT);
+                    quaternionGyroscope.slerp(quaternionRotationVector, interpolatedQuaternion, DIRECT_INTERPOLATION_WEIGHT);
 
                     // Use the interpolated value between gyro and rotationVector
-                    setOrientationQuaternionAndMatrix(interpolateQuaternion);
+                    setOrientationQuaternionAndMatrix(interpolatedQuaternion);
                     // Override current gyroscope-orientation
-                    quaternionGyroscope.copyVec4(interpolateQuaternion);
+                    quaternionGyroscope.copyVec4(interpolatedQuaternion);
 
                     // Reset the panic counter because both sensors are saying the same again
                     panicCounter = 0;
@@ -266,7 +266,7 @@ public class ImprovedOrientationSensor1Provider extends OrientationProvider {
         // Before converting it back to matrix representation, we need to revert this process
         correctedQuaternion.w(-correctedQuaternion.w());
 
-        synchronized (syncToken) {
+        synchronized (synchronizationToken) {
             // Use gyro only
             currentOrientationQuaternion.copyVec4(quaternion);
 

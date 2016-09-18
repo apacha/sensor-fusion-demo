@@ -28,7 +28,7 @@ public abstract class OrientationProvider implements SensorEventListener {
      * Sync-token for syncing read/write to sensor-data from sensor manager and
      * fusion algorithm
      */
-    protected final Object syncToken = new Object();
+    protected final Object synchronizationToken = new Object();
 
     /**
      * The list of sensors used by this provider
@@ -99,7 +99,7 @@ public abstract class OrientationProvider implements SensorEventListener {
      * Get the current rotation of the device in the rotation matrix format (4x4 matrix)
      */
     public void getRotationMatrix(MatrixF4x4 matrix) {
-        synchronized (syncToken) {
+        synchronized (synchronizationToken) {
             matrix.set(currentOrientationRotationMatrix);
         }
     }
@@ -108,7 +108,7 @@ public abstract class OrientationProvider implements SensorEventListener {
      * Get the current rotation of the device in the quaternion format (vector4f)
      */
     public void getQuaternion(Quaternion quaternion) {
-        synchronized (syncToken) {
+        synchronized (synchronizationToken) {
             quaternion.set(currentOrientationQuaternion);
         }
     }
@@ -117,7 +117,7 @@ public abstract class OrientationProvider implements SensorEventListener {
      * Get the current rotation of the device in the Euler angles
      */
     public void getEulerAngles(float angles[]) {
-        synchronized (syncToken) {
+        synchronized (synchronizationToken) {
             SensorManager.getOrientation(currentOrientationRotationMatrix.matrix, angles);
         }
     }

@@ -57,7 +57,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
     /**
      * Temporary variable to save allocations.
      */
-    private Quaternion correctedQuat = new Quaternion();
+    private Quaternion correctedQuaternion = new Quaternion();
 
     /**
      * Initialises a new CalibratedGyroscopeProvider
@@ -78,7 +78,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
         // that we received the proper event
         if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
 
-            // This timestep's delta rotation to be multiplied by the current rotation
+            // This timestamps delta rotation to be multiplied by the current rotation
             // after computing it from the gyro sample data.
             if (timestamp != 0) {
                 final float dT = (event.timestamp - timestamp) * NS2S;
@@ -110,20 +110,20 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
                 deltaQuaternion.setW(-(float) cosThetaOverTwo);
 
                 // Matrix rendering in CubeRenderer does not seem to have this problem.
-                synchronized (syncToken) {
+                synchronized (synchronizationToken) {
                     // Move current gyro orientation if gyroscope should be used
                     deltaQuaternion.multiplyByQuat(currentOrientationQuaternion, currentOrientationQuaternion);
                 }
 
-                correctedQuat.set(currentOrientationQuaternion);
+                correctedQuaternion.set(currentOrientationQuaternion);
                 // We inverted w in the deltaQuaternion, because currentOrientationQuaternion required it.
                 // Before converting it back to matrix representation, we need to revert this process
-                correctedQuat.w(-correctedQuat.w());
+                correctedQuaternion.w(-correctedQuaternion.w());
 
-                synchronized (syncToken) {
+                synchronized (synchronizationToken) {
                     // Set the rotation matrix as well to have both representations
                     SensorManager.getRotationMatrixFromVector(currentOrientationRotationMatrix.matrix,
-                            correctedQuat.array());
+                            correctedQuaternion.array());
                 }
             }
             timestamp = event.timestamp;

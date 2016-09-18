@@ -24,9 +24,9 @@ public class AccelerometerCompassProvider extends OrientationProvider {
     final private float[] accelerometerValues = new float[3];
 
     /**
-     * Temporary variable to save allocations
+     * Inclination values
      */
-    final float[] tmpFloat = new float[16];
+    final float[] inclinationValues = new float[16];
 
     /**
      * Initialises a new AccelerometerCompassProvider
@@ -54,7 +54,7 @@ public class AccelerometerCompassProvider extends OrientationProvider {
 
         if (magnitudeValues != null && accelerometerValues != null) {
             // Fuse accelerometer with compass
-            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, tmpFloat, accelerometerValues,
+            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, inclinationValues, accelerometerValues,
                     magnitudeValues);
             // Transform rotation matrix to quaternion
             currentOrientationQuaternion.setRowMajor(currentOrientationRotationMatrix.matrix);

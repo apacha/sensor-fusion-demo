@@ -24,9 +24,9 @@ public class GravityCompassProvider extends OrientationProvider {
     final private float[] gravityValues = new float[3];
 
     /**
-     * Temporary variable to save some allocations
+     * Inclination values
      */
-    float[] tmpFloat = new float[16];
+    float[] inclinationValues = new float[16];
 
     /**
      * Initialises a new GravityCompassProvider
@@ -54,7 +54,7 @@ public class GravityCompassProvider extends OrientationProvider {
 
         if (magnitudeValues != null && gravityValues != null) {
             // Fuse gravity-sensor (virtual sensor) with compass
-            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, tmpFloat, gravityValues, magnitudeValues);
+            SensorManager.getRotationMatrix(currentOrientationRotationMatrix.matrix, inclinationValues, gravityValues, magnitudeValues);
             // Transform rotation matrix to quaternion
             currentOrientationQuaternion.setRowMajor(currentOrientationRotationMatrix.matrix);
         }
