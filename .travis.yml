@@ -6,7 +6,7 @@ android:
     - tools
     
     # The BuildTools version used by your project
-    - build-tools-23.0.3
+    - build-tools-24.0.2
     
     # The SDK version used to compile your project
     - android-24
@@ -19,9 +19,10 @@ android:
 
 before_script:
   # Create and start emulator
-  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  #- echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
+  #- emulator -avd test -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
 
-script: ./gradlew assembleRelease connectedAndroidTest
+script: ./gradlew assembleRelease 
+    # connectedAndroidTest
