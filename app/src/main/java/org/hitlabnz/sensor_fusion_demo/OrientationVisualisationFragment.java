@@ -94,6 +94,7 @@ public class OrientationVisualisationFragment extends Fragment {
         mRenderer = new CubeRenderer();
         mRenderer.setOrientationProvider(currentOrientationProvider);
         mGLSurfaceView = new GLSurfaceView(getActivity());
+        mGLSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         mGLSurfaceView.setRenderer(mRenderer);
 
         mGLSurfaceView.setOnLongClickListener(new OnLongClickListener() {
