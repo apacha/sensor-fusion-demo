@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
 
-def date = new Date()
-def formattedDate = date.format('yyMMdd')
-def code = formattedDate.toInteger()
+def code = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 0
 
 android {
     compileSdkVersion 24
@@ -13,7 +11,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 24
         versionCode code
-        versionName "1.4." + formattedDate
+        versionName "1.4." + code
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
