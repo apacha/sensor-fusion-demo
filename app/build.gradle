@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def date = new Date()
+def formattedDate = date.format('yyMMddHHmm')
+def code = formattedDate.toInteger()
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -8,8 +12,8 @@ android {
         applicationId "org.hitlabnz.sensor_fusion_demo"
         minSdkVersion 18
         targetSdkVersion 24
-        versionCode 5
-        versionName "1.4"
+        versionCode code
+        versionName "1.4." + formattedDate
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
