@@ -3,7 +3,6 @@
 
     <string name="app_name">Sensorfusions Demo</string>
     <string name="action_about">Über</string>
-    <string name="title_main_activity">Sensorfusions Demo</string>
     <string name="title_section1">Improved Orientation Sensor 1</string>
     <string name="title_section2">Improved Orientation Sensor 2</string>
     <string name="title_section3">Android Rotation Vector</string>
