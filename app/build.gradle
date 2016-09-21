@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+def offset = 1609201649;
 def code = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 0
 
 android {
@@ -10,7 +11,7 @@ android {
         applicationId "org.hitlabnz.sensor_fusion_demo"
         minSdkVersion 18
         targetSdkVersion 24
-        versionCode code
+        versionCode code + offset
         versionName "1.4." + code
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
