@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 def date = new Date()
-def formattedDate = date.format('yyyyMMdd')
-def code = formattedDate.toInteger() * 100
+def formattedDate = date.format('yyMMdd')
+def code = formattedDate.toInteger() * 10000
 def buildNumber = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 0
 
 android {
