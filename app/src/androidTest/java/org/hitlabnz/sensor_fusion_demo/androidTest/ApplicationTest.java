@@ -1,6 +1,7 @@
 package org.hitlabnz.sensor_fusion_demo.androidTest;
 
 import android.app.Application;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -61,6 +62,10 @@ public class ApplicationTest {
     }
 
     public static void DiscardGyroscopeWarning() {
-        onView(withText("OK")).perform(click());
+        try {
+            onView(withText("OK")).perform(click());
+        } catch (NoMatchingViewException e) {
+            //view not displayed logic
+        }
     }
 }
