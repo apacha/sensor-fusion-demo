@@ -6,6 +6,9 @@
 
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
+
+Read the full documentation [here](http://sensor-fusion-demo.readthedocs.io).
+
 The major novelty in this application is the fusion of virtual sensors: **Improved Orientation Sensor 1** and **Improved Orientation Sensor 2** fuse the Android Rotation Vector with the virtual Gyroscope sensor to achieve a pose estimation with a previously unknown stability and precision.
 
 Apart from these two sensors, the following sensors are available for comparison:
