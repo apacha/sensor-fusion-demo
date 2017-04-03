@@ -2,6 +2,7 @@
 
 [![Build Status](https://www.bitrise.io/app/46b5cf7adea1286f.svg?token=MZUhPFZvIBiaTSEinY9zUQ&branch=master)](https://www.bitrise.io/app/46b5cf7adea1286f)
 [![Build Status](https://travis-ci.org/apacha/sensor-fusion-demo.svg?branch=master)](https://travis-ci.org/apacha/sensor-fusion-demo)
+[![Documentation Status](https://readthedocs.org/projects/sensor-fusion-demo/badge/?version=latest)](http://sensor-fusion-demo.readthedocs.io/en/latest/?badge=latest)
 
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
