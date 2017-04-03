@@ -21,23 +21,24 @@ Apart from these two sensors, the following sensors are available for comparison
 
 This application was developed for demonstrating the sensor fusion approach developed for my `Master Thesis "Sensor fusion for robust outdoor Augmented Reality tracking on mobile devices <http://my-it.at/media/MasterThesis-Pacha.pdf>`_ at the `Human Interface Technology Laboratory New Zealand <http://www.hitlabnz.org>`_.
 
-A short summary can also be found in this `Stackoverflow answer <http://stackoverflow.com/a/18800083/448357>`_.
 
 Euler Angles
-------------
+============
 
 Euler-Angles are also often referred to as Azimuth, Pitch and Roll and describe the rotation of an object in the three-dimensional space with respect to three axis that are simple to understand and visualize. However, they have certain limitations and have therefore been removed from this project.
 
 If you want to obtain the rotation using Euler-Angles, check out `the last tag that contained the Euler angles <https://bitbucket.org/apacha/sensor-fusion-demo/commits/tag/BeforePerformanceImprovements>`_. Notice that they have been removed, because many people don't understand Euler Angles fully and are surprised, when they get results, that they did not expect (because the representation is ambiguous and suffers from Gimbal Lock). Try to use a Rotation Matrix, a Rotation Vector or Quaternions instead.
 
+A short summary can also be found in this `Stackoverflow answer <http://stackoverflow.com/a/18800083/448357>`_.
+
 
 Installation
-------------
+============
 
 This project is an Gradle-based Android Studio project. It is also published in the `Google Play Store <https://play.google.com/store/apps/details?id=org.hitlabnz.sensor_fusion_demo>`_, if you just want to try it out. 
 
 Contribute
-----------
+==========
 
 - `Issue Tracker <http://bitbucket.org/apacha/sensor-fusion-demo/issues>`_
 - `Source Code <http://bitbucket.org/apacha/sensor-fusion-demo/>`_
@@ -49,7 +50,7 @@ Contribute
 5. Create new Pull Request
 
 License
--------
+=======
 
 Released under the MIT license.
 
