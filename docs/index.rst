@@ -6,11 +6,7 @@
 Welcome to Sensor-fusion Demo's documentation!
 ==============================================
 
-$project demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
-
-
-Features
---------
+This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
 The major novelty in this application is the fusion of virtual sensors: **Improved Orientation Sensor 1** and **Improved Orientation Sensor 2** fuse the Android Rotation Vector with the virtual Gyroscope sensor to achieve a pose estimation with a previously unknown stability and precision.
 
@@ -25,6 +21,16 @@ Apart from these two sensors, the following sensors are available for comparison
 
 This application was developed for demonstrating the sensor fusion approach developed for my `Master Thesis "Sensor fusion for robust outdoor Augmented Reality tracking on mobile devices <http://my-it.at/media/MasterThesis-Pacha.pdf>`_ at the `Human Interface Technology Laboratory New Zealand <http://www.hitlabnz.org>`_.
 
+A short summary can also be found in this `Stackoverflow answer <http://stackoverflow.com/a/18800083/448357>`_.
+
+Euler Angles
+------------
+
+Euler-Angles are also often referred to as Azimuth, Pitch and Roll and describe the rotation of an object in the three-dimensional space with respect to three axis that are simple to understand and visualize. However, they have certain limitations and have therefore been removed from this project.
+
+If you want to obtain the rotation using Euler-Angles, check out `the last tag that contained the Euler angles <https://bitbucket.org/apacha/sensor-fusion-demo/commits/tag/BeforePerformanceImprovements>`_. Notice that they have been removed, because many people don't understand Euler Angles fully and are surprised, when they get results, that they did not expect (because the representation is ambiguous and suffers from Gimbal Lock). Try to use a Rotation Matrix, a Rotation Vector or Quaternions instead.
+
+
 Installation
 ------------
 
@@ -33,8 +39,8 @@ This project is an Gradle-based Android Studio project. It is also published in 
 Contribute
 ----------
 
-- Issue Tracker: github.com/$project/$project/issues
-- Source Code: github.com/$project/$project
+- `Issue Tracker <http://bitbucket.org/apacha/sensor-fusion-demo/issues>`_
+- `Source Code <http://bitbucket.org/apacha/sensor-fusion-demo/>`_
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -42,11 +48,8 @@ Contribute
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-Support
+License
 -------
-
-If you are having issues, please let us know.
-We have a mailing list located at: project@google-groups.com
 
 Released under the MIT license.
 
@@ -70,7 +73,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-This application also uses parts from the the Android Open Source Project, licensed under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_ .
+This application also uses parts from the the Android Open Source Project, licensed under the `Apache License, Version 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_.
 
 
 .. toctree::
