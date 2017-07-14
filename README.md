@@ -20,7 +20,7 @@ Apart from these two sensors, the following sensors are available for comparison
 - Gravity + Compass
 - Accelerometer + Compass
 
-This application was developed for demonstrating the sensor fusion approach developed for my [Master Thesis "Sensor fusion for robust outdoor Augmented Reality tracking on mobile devices"](http://my-it.at/media/MasterThesis-Pacha.pdf) at the [Human Interface Technology Laboratory New Zealand](http://www.hitlabnz.org).
+This application was developed for demonstrating the sensor fusion approach developed for my [Master Thesis "Sensor fusion for robust outdoor Augmented Reality tracking on mobile devices"](https://alexanderpacha.files.wordpress.com/2017/05/masterthesis-pacha.pdf) at the [Human Interface Technology Laboratory New Zealand](http://www.hitlabnz.org).
 
 ## Build and Install
 
