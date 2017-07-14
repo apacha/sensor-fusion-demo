@@ -7,7 +7,7 @@ buildscript {
         maven { url 'http://repo1.maven.org/maven2' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
     }
 }
