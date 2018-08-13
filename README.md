@@ -1,6 +1,6 @@
 # Sensor fusion demo for Android
 
-[![Build Status](https://www.bitrise.io/app/46b5cf7adea1286f.svg?token=MZUhPFZvIBiaTSEinY9zUQ&branch=master)](https://www.bitrise.io/app/46b5cf7adea1286f)
+[![Build Status](https://app.bitrise.io/app/46b5cf7adea1286f/status.svg?token=MZUhPFZvIBiaTSEinY9zUQ&branch=master)](https://app.bitrise.io/app/46b5cf7adea1286f)
 [![Build Status](https://travis-ci.org/apacha/sensor-fusion-demo.svg?branch=master)](https://travis-ci.org/apacha/sensor-fusion-demo)
 [![Documentation Status](https://readthedocs.org/projects/sensor-fusion-demo/badge/?version=latest)](http://sensor-fusion-demo.readthedocs.io/en/latest/?badge=latest)
 
@@ -38,7 +38,7 @@ This project is an Gradle-based Android Studio project. It is also published in 
 
 Released under the MIT license.
 
-Copyright, 2017, by [Alexander Pacha](http://alexanderpacha.com) and the [Human Technology Laboratory New Zealand](http://www.hitlabnz.org).
+Copyright, 2018, by [Alexander Pacha](http://alexanderpacha.com) and the [Human Technology Laboratory New Zealand](http://www.hitlabnz.org).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
