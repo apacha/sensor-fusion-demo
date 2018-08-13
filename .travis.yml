@@ -16,7 +16,10 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository    
-    - sys-img-armeabi-v7a-android-27
+    - sys-img-armeabi-v7a-android-28
+
+before_install:
+  - yes | sdkmanager "platforms;android-28"
 
 before_script:
   # Create and start emulator
