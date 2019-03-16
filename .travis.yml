@@ -17,6 +17,10 @@ android:
     - extra-google-m2repository
     - extra-android-m2repository    
     - sys-img-armeabi-v7a-android-28
+  licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 install:
   - echo y | android update sdk -u -a -t tools
