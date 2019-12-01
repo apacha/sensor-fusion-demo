@@ -24,6 +24,8 @@ Euler-Angles are also often referred to as Azimuth, Pitch and Roll and describe 
 
 If you want to obtain the rotation using Euler-Angles, check out `the last tag that contained the Euler angles <https://bitbucket.org/apacha/sensor-fusion-demo/commits/tag/BeforePerformanceImprovements>`_. Notice that they have been removed, because many people don't understand Euler Angles fully and are surprised, when they get results, that they did not expect (because the representation is ambiguous and suffers from Gimbal Lock). Try to use a Rotation Matrix, a Rotation Vector or Quaternions instead.
 
+This `Wikipedia entry <https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles>` shows how to convert Quaternions into Euler angles.
+
 A short summary can also be found in this `Stackoverflow answer <http://stackoverflow.com/a/18800083/448357>`_.
 
 
