@@ -1,10 +1,10 @@
 package org.hitlabnz.sensor_fusion_demo.test;
 
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QuaternionTest {
 
@@ -23,7 +23,6 @@ public class QuaternionTest {
         assertThat(q.y(), is(equalTo(0.0f)));
         assertThat(q.z(), is(equalTo(0.0f)));
     }
-
 
     @Test
     public void quaternion_performSlerp_expectCorrectValues() throws Exception {

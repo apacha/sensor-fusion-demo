@@ -11,11 +11,12 @@ import org.hitlabnz.sensor_fusion_demo.orientationProvider.RotationVectorProvide
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnLongClickListener;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A fragment that contains the same visualisation for different orientation providers
