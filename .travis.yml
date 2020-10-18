@@ -18,17 +18,18 @@ android:
     - extra-android-m2repository    
     - sys-img-armeabi-v7a-android-30
   licenses:
+    - 'android-sdk-license-e6a904e8'
     - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
 install:
-  - echo y | android update sdk -u -a -t tools
-  - echo y | android update sdk -u -a -t platform-tools
-  - echo y | android update sdk -u -a -t build-tools-29.0.2
-  - echo y | android update sdk -u -a -t android-30
-  - echo y | android update sdk -u -a -t extra-google-m2repository
-  - echo y | android update sdk -u -a -t extra-android-m2repository
+  - echo yes | android update sdk -u -a -t tools
+  - echo yes | android update sdk -u -a -t platform-tools
+  - echo yes | android update sdk -u -a -t build-tools-29.0.2
+  - echo yes | android update sdk -u -a -t android-30
+  - echo yes | android update sdk -u -a -t extra-google-m2repository
+  - echo yes | android update sdk -u -a -t extra-android-m2repository
 
 before_script:
   # Create and start emulator
