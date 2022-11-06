@@ -1,7 +1,7 @@
 package org.hitlabnz.sensor_fusion_demo.test;
 
 import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
