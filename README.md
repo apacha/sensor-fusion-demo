@@ -1,6 +1,6 @@
 # Sensor fusion demo for Android
 
-[![Build Status](https://app.bitrise.io/app/46b5cf7adea1286f/status.svg?token=MZUhPFZvIBiaTSEinY9zUQ&branch=master)](https://app.bitrise.io/app/46b5cf7adea1286f)
+[![Build Status](https://app.bitrise.io/app/46b5cf7adea1286f/status.svg?token=MZUhPFZvIBiaTSEinY9zUQ&branch=main)](https://app.bitrise.io/app/46b5cf7adea1286f)
 [![Documentation Status](https://readthedocs.org/projects/sensor-fusion-demo/badge/?version=latest)](http://sensor-fusion-demo.readthedocs.io/en/latest/?badge=latest)
 
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
