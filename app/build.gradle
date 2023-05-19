@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+def date = new Date()
+def formattedDate = date.format('yyMMdd')
+def code = formattedDate.toInteger() * 10000
 def buildNumber = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
 
 android {
@@ -12,8 +15,8 @@ android {
         applicationId "org.hitlabnz.sensor_fusion_demo"
         minSdk 25
         targetSdk 33
-        versionCode buildNumber
-        versionName "1.7." + buildNumber
+        versionCode code + buildNumber
+        versionName "1.6." + buildNumber
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
