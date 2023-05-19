@@ -1,55 +1,55 @@
----
 format_version: 1.1.0
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 app:
   envs:
-  - BITRISE_PROJECT_PATH: build.gradle
-    opts:
-      is_expand: false
-  - GRADLE_TASK: app:assembleRelease
-    opts:
-      is_expand: false
-  - GRADLEW_PATH: "./gradlew"
-    opts:
-      is_expand: false
-  - opts:
-      is_expand: true
-    APP_DEPLOYMENT_SERVICE_EMAIL: appdeploymentservice@api-5179143585984721455-676877.iam.gserviceaccount.com
-  - opts:
-      is_expand: true
-    APP_PACKAGE_NAME: org.hitlabnz.sensor_fusion_demo
-  - opts:
-      is_expand: false
-    MODULE: app
+    - BITRISE_PROJECT_PATH: build.gradle
+      opts:
+        is_expand: false
+    - GRADLE_TASK: app:assembleRelease
+      opts:
+        is_expand: false
+    - GRADLEW_PATH: ./gradlew
+      opts:
+        is_expand: false
+    - opts:
+        is_expand: true
+      APP_DEPLOYMENT_SERVICE_EMAIL: appdeploymentservice@api-5179143585984721455-676877.iam.gserviceaccount.com
+    - opts:
+        is_expand: true
+      APP_PACKAGE_NAME: org.hitlabnz.sensor_fusion_demo
+    - opts:
+        is_expand: false
+      MODULE: app
 trigger_map:
-- push_branch: "*"
-  workflow: primary
+  - push_branch: '*'
+    workflow: primary
 workflows:
   primary:
     steps:
-    - activate-ssh-key@4:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@8: {}
-    - avd-manager@1: {}
-    - android-unit-test@1: {}
-    - android-build-for-ui-testing@0:
-        inputs:
-        - variant: debug
-        - module: "$MODULE"
-    - wait-for-android-emulator@1: {}
-    - android-instrumented-test@0: {}
-    - android-build@1:
-        inputs:
-        - variant: release
-        - module: app
-        - build_type: aab
-    - sign-apk@1: {}
-    - google-play-deploy@3:
-        inputs:
-        - package_name: "$APP_PACKAGE_NAME"
-        - service_account_json_key_path: "$BITRISEIO_PUBLISHING_KEY_URL"
-    - deploy-to-bitrise-io@2: {}
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@8: {}
+      - avd-manager@1: {}
+      - android-unit-test@1: {}
+      - android-build-for-ui-testing@0:
+          inputs:
+            - variant: debug
+            - module: $MODULE
+      - wait-for-android-emulator@1: {}
+      - android-instrumented-test@0: {}
+      - android-build@1:
+          inputs:
+            - variant: release
+            - module: app
+            - build_type: aab
+          title: Android Build (Release AAB)
+      - sign-apk@1: {}
+      - google-play-deploy@3:
+          inputs:
+            - package_name: $APP_PACKAGE_NAME
+            - service_account_json_key_path: $BITRISEIO_PUBLISHING_KEY_URL
+      - deploy-to-bitrise-io@2: {}
 meta:
   bitrise.io:
     stack: linux-docker-android-20.04
