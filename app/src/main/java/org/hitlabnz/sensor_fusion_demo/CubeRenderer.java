@@ -157,7 +157,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
     /**
      * Flag indicating whether you want to view inside out, or outside in
      */
-    private boolean showCubeInsideOut = true;
+    private boolean showCubeInsideOut = false;
 
     /**
      * Toggles whether the cube will be shown inside-out or outside in.
