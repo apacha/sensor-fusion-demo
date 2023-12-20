@@ -5,7 +5,6 @@
 
 This application demonstrates the capabilities of various sensors and sensor-fusions. Data from the Gyroscope, Accelerometer and compass are combined in different ways and the result is shown as a cube that can be rotated by rotating the device.
 
-
 Read the full documentation [here](http://sensor-fusion-demo.readthedocs.io).
 
 The major novelty in this application is the fusion of virtual sensors: **Improved Orientation Sensor 1** and **Improved Orientation Sensor 2** fuse the Android Rotation Vector with the virtual Gyroscope sensor to achieve a pose estimation with a previously unknown stability and precision.
@@ -23,7 +22,7 @@ This application was developed for demonstrating the sensor fusion approach deve
 
 ## Build and Install
 
-This project is an Gradle-based Android Studio project. It is also published in the [Google Play Store](https://play.google.com/store/apps/details?id=org.hitlabnz.sensor_fusion_demo), if you just want to try it out. 
+This project is an Gradle-based Android Studio project. It is also published in the [Google Play Store](https://play.google.com/store/apps/details?id=org.hitlabnz.sensor_fusion_demo), if you just want to try it out.
 
 ## Contributing
 
@@ -57,7 +56,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-This application also uses parts from the the Android Open Source Project, licensed under the [Apache License, Version 2.0]( http://www.apache.org/licenses/LICENSE-2.0).
+This application also uses parts from the the Android Open Source Project, licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 ## Data privacy statement
 
