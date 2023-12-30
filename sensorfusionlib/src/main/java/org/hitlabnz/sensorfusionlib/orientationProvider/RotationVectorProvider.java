@@ -1,4 +1,4 @@
-package org.hitlabnz.sensor_fusion_demo.orientationProvider;
+package org.hitlabnz.sensorfusionlib.orientationProvider;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

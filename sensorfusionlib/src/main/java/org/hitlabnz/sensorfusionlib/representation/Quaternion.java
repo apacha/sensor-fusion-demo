@@ -1,4 +1,4 @@
-package org.hitlabnz.sensor_fusion_demo.representation;
+package org.hitlabnz.sensorfusionlib.representation;
 
 /**
  * The Quaternion class. A Quaternion is a four-dimensional vector that is used to represent rotations of a rigid body

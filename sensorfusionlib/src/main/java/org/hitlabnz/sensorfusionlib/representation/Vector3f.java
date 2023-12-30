@@ -1,4 +1,4 @@
-package org.hitlabnz.sensor_fusion_demo.representation;
+package org.hitlabnz.sensorfusionlib.representation;
 
 /**
  * 3-dimensional vector with conventient getters and setters. Additionally this class is serializable and

@@ -1,12 +1,12 @@
 package org.hitlabnz.sensor_fusion_demo;
 
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.AccelerometerCompassProvider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.CalibratedGyroscopeProvider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.GravityCompassProvider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSensor1Provider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.ImprovedOrientationSensor2Provider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.RotationVectorProvider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.AccelerometerCompassProvider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.CalibratedGyroscopeProvider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.GravityCompassProvider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.ImprovedOrientationSensor1Provider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.ImprovedOrientationSensor2Provider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.OrientationProvider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.RotationVectorProvider;
 
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;

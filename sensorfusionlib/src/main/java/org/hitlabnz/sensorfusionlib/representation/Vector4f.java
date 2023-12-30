@@ -1,4 +1,4 @@
-package org.hitlabnz.sensor_fusion_demo.representation;
+package org.hitlabnz.sensorfusionlib.representation;
 
 /**
  * Representation of a four-dimensional float-vector

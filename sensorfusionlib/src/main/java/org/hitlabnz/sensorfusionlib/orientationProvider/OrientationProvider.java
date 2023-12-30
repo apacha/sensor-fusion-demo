@@ -1,13 +1,13 @@
 /**
  * 
  */
-package org.hitlabnz.sensor_fusion_demo.orientationProvider;
+package org.hitlabnz.sensorfusionlib.orientationProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hitlabnz.sensor_fusion_demo.representation.MatrixF4x4;
-import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
+import org.hitlabnz.sensorfusionlib.representation.MatrixF4x4;
+import org.hitlabnz.sensorfusionlib.representation.Quaternion;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
