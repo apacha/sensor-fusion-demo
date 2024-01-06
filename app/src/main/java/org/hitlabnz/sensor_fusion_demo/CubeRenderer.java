@@ -3,8 +3,8 @@ package org.hitlabnz.sensor_fusion_demo;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import org.hitlabnz.sensor_fusion_demo.orientationProvider.OrientationProvider;
-import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
+import org.hitlabnz.sensorfusionlib.orientationProvider.OrientationProvider;
+import org.hitlabnz.sensorfusionlib.representation.Quaternion;
 
 import android.opengl.GLSurfaceView;
 

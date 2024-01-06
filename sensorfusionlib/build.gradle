@@ -1,21 +1,21 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
 }
 
 def legacyOffset = 2005280000
 def buildNumber = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
 
 android {
-    namespace 'org.hitlabnz.sensor_fusion_demo'
+    namespace 'org.hitlabnz.sensorfusionlib'
     compileSdk 34
 
     defaultConfig {
-        applicationId "org.hitlabnz.sensor_fusion_demo"
-        minSdk 25
+        minSdk 23
         targetSdk 33
         versionCode legacyOffset + buildNumber
         versionName "1.6." + buildNumber
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -24,29 +24,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        resources {
-            excludes += ['README.txt']
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures {
-        viewBinding true
-    }
-    buildToolsVersion '33.0.0'
 }
 
 dependencies {
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.6.2'
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment:2.7.6'
-    implementation 'androidx.navigation:navigation-ui:2.7.6'
-    implementation project(':sensorfusionlib')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
