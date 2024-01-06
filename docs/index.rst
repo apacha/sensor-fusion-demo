@@ -51,7 +51,7 @@ License
 
 Released under the MIT license.
 
-Copyright, 2023, by `Alexander Pacha <https://alexanderpacha.com/>`_ and the `Human Technology Laboratory New Zealand <http://www.hitlabnz.org>`_ .
+Copyright, 2024, by `Alexander Pacha <https://alexanderpacha.com/>`_ and the `Human Technology Laboratory New Zealand <http://www.hitlabnz.org>`_ .
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
