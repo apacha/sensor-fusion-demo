@@ -49,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Sensor-fusion Demo'
-copyright = '2017, Alexander Pacha'
+copyright = '2024, Alexander Pacha'
 author = 'Alexander Pacha'
 
 # The version info for the project you're documenting, acts as replacement for
