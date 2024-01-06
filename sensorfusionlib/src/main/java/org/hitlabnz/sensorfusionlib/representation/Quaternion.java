@@ -113,7 +113,6 @@ public class Quaternion extends Vector4f {
      * Multiply this quaternion by the input quaternion and store the result in the out quaternion
      * 
      * @param input
-     * @param output
      */
     public void multiplyByQuat(Quaternion input) {
         this.dirty = true;
@@ -471,23 +470,6 @@ public class Quaternion extends Vector4f {
         } else {
             bufferQuat = input;
         }
-        /**
-         * if(dot < 0.95f){
-         * double angle = Math.acos(dot);
-         * double ratioA = Math.sin((1 - t) * angle);
-         * double ratioB = Math.sin(t * angle);
-         * double divisor = Math.sin(angle);
-         * 
-         * //Calculate Quaternion
-         * output.setW((float)((this.getW() * ratioA + input.getW() * ratioB)/divisor));
-         * output.setX((float)((this.getX() * ratioA + input.getX() * ratioB)/divisor));
-         * output.setY((float)((this.getY() * ratioA + input.getY() * ratioB)/divisor));
-         * output.setZ((float)((this.getZ() * ratioA + input.getZ() * ratioB)/divisor));
-         * }
-         * else{
-         * lerp(input, output, t);
-         * }
-         */
         // if qa=qb or qa=-qb then theta = 0 and we can return qa
         if (Math.abs(cosHalftheta) >= 1.0) {
             output.points[0] = (this.points[0]);
@@ -496,16 +478,6 @@ public class Quaternion extends Vector4f {
             output.points[3] = (this.points[3]);
         } else {
             double sinHalfTheta = Math.sqrt(1.0 - cosHalftheta * cosHalftheta);
-            // if theta = 180 degrees then result is not fully defined
-            // we could rotate around any axis normal to qa or qb
-            //if(Math.abs(sinHalfTheta) < 0.001){
-            //output.setW(this.getW() * 0.5f + input.getW() * 0.5f);
-            //output.setX(this.getX() * 0.5f + input.getX() * 0.5f);
-            //output.setY(this.getY() * 0.5f + input.getY() * 0.5f);
-            //output.setZ(this.getZ() * 0.5f + input.getZ() * 0.5f);
-            //  lerp(bufferQuat, output, t);
-            //}
-            //else{
             double halfTheta = Math.acos(cosHalftheta);
 
             double ratioA = Math.sin((1 - t) * halfTheta) / sinHalfTheta;
@@ -516,8 +488,6 @@ public class Quaternion extends Vector4f {
             output.points[0] = ((float) (this.points[0] * ratioA + bufferQuat.points[0] * ratioB));
             output.points[1] = ((float) (this.points[1] * ratioA + bufferQuat.points[1] * ratioB));
             output.points[2] = ((float) (this.points[2] * ratioA + bufferQuat.points[2] * ratioB));
-
-            //}
         }
     }
 

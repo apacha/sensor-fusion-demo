@@ -188,14 +188,6 @@ public class MatrixF4x4 {
         float[] bufferMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         float[] matrix = matrixf.getMatrix();
 
-        /**
-         * for(int i = 0; i < 4; i++){ for(int j = 0; j < 4; j++){
-         *
-         * int k = i * 4; bufferMatrix[0 + j] += this.matrix[k + j] * matrix[0 * 4 + i]; bufferMatrix[1 * 4 + j] +=
-         * this.matrix[k + j] * matrix[1 * 4 + i]; bufferMatrix[2 * 4 + j] += this.matrix[k + j] * matrix[2 * 4 +
-         * i]; bufferMatrix[3 * 4 + j] += this.matrix[k + j] * matrix[3 * 4 + i]; } }
-         */
-
         multiplyMatrix(matrix, 0, bufferMatrix, 0);
         matrixf.setMatrix(bufferMatrix);
     }

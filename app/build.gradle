@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "org.hitlabnz.sensor_fusion_demo"
         minSdk 25
-        targetSdk 33
+        targetSdk 34
         versionCode legacyOffset + buildNumber
         versionName "1.6." + buildNumber
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -36,7 +36,6 @@ android {
     buildFeatures {
         viewBinding true
     }
-    buildToolsVersion '33.0.0'
 }
 
 dependencies {

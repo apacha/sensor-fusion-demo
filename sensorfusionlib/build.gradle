@@ -2,18 +2,13 @@ plugins {
     id 'com.android.library'
 }
 
-def legacyOffset = 2005280000
-def buildNumber = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
-
 android {
     namespace 'org.hitlabnz.sensorfusionlib'
     compileSdk 34
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
-        versionCode legacyOffset + buildNumber
-        versionName "1.6." + buildNumber
+        targetSdk 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }

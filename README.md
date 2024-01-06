@@ -36,7 +36,7 @@ This project is an Gradle-based Android Studio project. It is also published in 
 
 Released under the MIT license.
 
-Copyright, 2023, by [Alexander Pacha](http://alexanderpacha.com) and the [Human Technology Laboratory New Zealand](http://www.hitlabnz.org).
+Copyright, 2024, by [Alexander Pacha](http://alexanderpacha.com) and the [Human Technology Laboratory New Zealand](http://www.hitlabnz.org).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

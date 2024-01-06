@@ -63,16 +63,6 @@ public class Matrix {
 
     public static void multiplyMM(float[] output, int outputOffset, float[] lhs, int lhsOffset, float[] rhs,
             int rhsOffset) {
-        //for(int i = 0; i < 4; i++){
-        //	for(int j = 0; j < 4; j++){
-
-        //		int k = i * 4;
-        //		output[outputOffset + 0 + j] += lhs[lhsOffset + k + j] * rhs[rhsOffset + 0 * 4 + i];
-        //		output[outputOffset + 1 * 4 + j] += lhs[lhsOffset +k + j] * rhs[rhsOffset + 1 * 4 + i];
-        //		output[outputOffset + 2 * 4 + j] += lhs[lhsOffset +k + j] * rhs[rhsOffset + 2 * 4 + i];
-        //	    output[outputOffset + 3 * 4 + j] += lhs[lhsOffset +k + j] * rhs[rhsOffset + 3 * 4 + i];
-        //	}
-        //}
         output[outputOffset + 0] = lhs[lhsOffset + 0] * rhs[rhsOffset + 0] + lhs[lhsOffset + 4] * rhs[rhsOffset + 1]
                 + lhs[lhsOffset + 8] * rhs[rhsOffset + 2] + lhs[lhsOffset + 12] * rhs[rhsOffset + 3];
         output[outputOffset + 1] = lhs[lhsOffset + 1] * rhs[rhsOffset + 0] + lhs[lhsOffset + 5] * rhs[rhsOffset + 1]
@@ -140,13 +130,13 @@ public class Matrix {
      * However, the resultVec element values are undefined if the resultVec
      * elements overlap either the lhsMat or rhsVec elements.
      * 
-     * @param resultVec The float array that holds the result vector.
-     * @param resultVecOffset The offset into the result array where the result
+     * @param output The float array that holds the result vector.
+     * @param outputOffset The offset into the result array where the result
      *            vector is stored.
-     * @param lhsMat The float array that holds the left-hand-side matrix.
-     * @param lhsMatOffset The offset into the lhs array where the lhs is stored
-     * @param rhsVec The float array that holds the right-hand-side vector.
-     * @param rhsVecOffset The offset into the rhs vector where the rhs vector
+     * @param lhs The float array that holds the left-hand-side matrix.
+     * @param lhsOffset The offset into the lhs array where the lhs is stored
+     * @param rhs The float array that holds the right-hand-side vector.
+     * @param rhsOffset The offset into the rhs vector where the rhs vector
      *            is stored.
      * 
      * @throws IllegalArgumentException if resultVec, lhsMat,
@@ -154,22 +144,8 @@ public class Matrix {
      *             or lhsMatOffset + 16 > lhsMat.length or
      *             rhsVecOffset + 4 > rhsVec.length.
      */
-    /* public static void multiplyMV(float[] resultVec,
-     * int resultVecOffset, float[] lhsMat, int lhsMatOffset,
-     * float[] rhsVec, int rhsVecOffset){
-     * android.opengl.Matrix.multiplyMV(resultVec, resultVecOffset, lhsMat, lhsMatOffset, rhsVec, rhsVecOffset);
-     * } */
     public static void multiplyMV(float[] output, int outputOffset, float[] lhs, int lhsOffset, float[] rhs,
             int rhsOffset) {
-        /* wrong implementation (this is for row major matrices)
-         * output[outputOffset +0] = lhs[lhsOffset + 0] * rhs[rhsOffset + 0] + lhs[lhsOffset + 1] * rhs[rhsOffset + 1]
-         * + lhs[lhsOffset + 2] * rhs[rhsOffset + 2] + lhs[lhsOffset + 3] * rhs[rhsOffset + 3];
-         * output[outputOffset +1] = lhs[lhsOffset + 4] * rhs[rhsOffset + 0] + lhs[lhsOffset + 5] * rhs[rhsOffset + 1] +
-         * lhs[lhsOffset + 6] * rhs[rhsOffset + 2] + lhs[lhsOffset + 7] * rhs[rhsOffset + 3];
-         * output[outputOffset +2] = lhs[lhsOffset + 8] * rhs[rhsOffset + 0] + lhs[lhsOffset + 9] * rhs[rhsOffset + 1] +
-         * lhs[lhsOffset + 10] * rhs[rhsOffset + 2] + lhs[lhsOffset + 11] * rhs[rhsOffset + 3];
-         * output[outputOffset +3] = lhs[lhsOffset + 12] * rhs[rhsOffset + 0] + lhs[lhsOffset + 13] * rhs[rhsOffset + 1]
-         * + lhs[lhsOffset + 14] * rhs[rhsOffset + 2] + lhs[lhsOffset + 15] * rhs[rhsOffset + 3]; */
         // correct implementation for column major matrices (which is for OpenGL)
         output[outputOffset + 0] = lhs[lhsOffset + 0] * rhs[rhsOffset + 0] + lhs[lhsOffset + 4] * rhs[rhsOffset + 1]
                 + lhs[lhsOffset + 8] * rhs[rhsOffset + 2] + lhs[lhsOffset + 12] * rhs[rhsOffset + 3];
