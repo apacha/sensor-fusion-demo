@@ -1,6 +1,6 @@
 package org.hitlabnz.sensor_fusion_demo.test;
 
-import org.hitlabnz.sensor_fusion_demo.representation.Quaternion;
+import org.hitlabnz.sensorfusionlib.representation.Quaternion;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
