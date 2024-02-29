@@ -2,6 +2,8 @@ plugins {
     id 'com.android.library'
 }
 
+def buildNumber = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
+
 android {
     namespace 'org.hitlabnz.sensorfusionlib'
     compileSdk 34
@@ -11,6 +13,7 @@ android {
         targetSdk 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+        versionName "1.0." + buildNumber
     }
 
     buildTypes {

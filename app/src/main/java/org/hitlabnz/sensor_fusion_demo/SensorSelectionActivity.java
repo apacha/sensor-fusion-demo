@@ -1,7 +1,5 @@
 package org.hitlabnz.sensor_fusion_demo;
 
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,56 +7,48 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
+import org.hitlabnz.sensorfusionlib.orientationProvider.ImprovedOrientationSensor1Provider;
+import org.hitlabnz.sensorfusionlib.orientationProvider.OrientationProvider;
 
 /**
- * The main activity where the user can select which sensor-fusion he wants to try out
+ * The main activity
  * 
- * @author Alexander Pacha
+ * @author Ladislav Heller
  * 
  */
-public class SensorSelectionActivity extends FragmentActivity {
-
-    /**
-     * The {@link PagerAdapter} that will provide
-     * fragments for each of the sections. We use a {@link FragmentPagerAdapter} derivative,
-     * which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a {@link FragmentStatePagerAdapter}.
-     */
-    SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    ViewPager mViewPager;
+public class SensorSelectionActivity extends AndroidApplication {
+    private OrientationProvider op;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensor_selection);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the app.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SensorManager sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+        op = new ImprovedOrientationSensor1Provider(sm);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        // create our 3D compass instance
+        // disable the use of Accelerometer/Compass/Gyroscope in LibGDX directly
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        config.useAccelerometer = false;
+        config.useCompass = false;
+        config.useGyroscope = false;
+        config.useRotationVectorSensor = false;
+        initialize(new Compass3D(this), config);
 
         // Check if device has a hardware gyroscope
-        SensorChecker checker = new HardwareChecker((SensorManager) getSystemService(SENSOR_SERVICE));
+        // boolean gyroAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
+        SensorChecker checker = new HardwareChecker(sm);
         if(!checker.IsGyroscopeAvailable()) {
         	// If a gyroscope is unavailable, display a warning.
         	displayHardwareMissingWarning();
         }
+
+        Toast.makeText(this, "Volume Up/Down keys: Switch orientation provider!", Toast.LENGTH_LONG).show();
     }
 
     private void displayHardwareMissingWarning() {
@@ -74,6 +64,15 @@ public class SensorSelectionActivity extends FragmentActivity {
     	});  
     	ad.show();  
 	}
+
+    public OrientationProvider getOrientationProvider() {
+        return op;
+    }
+
+    public void setOrientationProvider(OrientationProvider newOrientationProvider) {
+        op.stop();
+        op = newOrientationProvider;
+    }
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,58 +93,15 @@ public class SensorSelectionActivity extends FragmentActivity {
         return false;
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        /**
-         * Initialises a new sectionPagerAdapter
-         * 
-         * @param fm the fragment Manager
-         */
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
-            Fragment fragment = new OrientationVisualisationFragment();
-            Bundle args = new Bundle();
-            args.putInt(OrientationVisualisationFragment.ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            // Show 6 total pages.
-            return 6;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-            case 0:
-                return getString(R.string.title_section1).toUpperCase(l);
-            case 1:
-                return getString(R.string.title_section2).toUpperCase(l);
-            case 2:
-                return getString(R.string.title_section3).toUpperCase(l);
-            case 3:
-                return getString(R.string.title_section4).toUpperCase(l);
-            case 4:
-                return getString(R.string.title_section5).toUpperCase(l);
-            case 5:
-                return getString(R.string.title_section6).toUpperCase(l);
-            }
-            return null;
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        op.start();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        op.stop();
+    }
 }
