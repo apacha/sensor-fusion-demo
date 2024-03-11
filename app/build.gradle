@@ -14,7 +14,7 @@ android {
         minSdk 25
         targetSdk 34
         versionCode legacyOffset + buildNumber
-        versionName "1.7." + buildNumber
+        versionName "2.0." + buildNumber
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,6 +45,11 @@ dependencies {
     implementation 'com.badlogicgames.gdx:gdx-backend-android:1.12.1'
     implementation 'com.badlogicgames.gdx:gdx:1.12.1'
     implementation 'androidx.fragment:fragment:1.6.2'
+    implementation 'com.badlogicgames.gdx:gdx-freetype:1.12.1'
+    implementation 'com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-armeabi-v7a'
+    implementation 'com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-arm64-v8a'
+    implementation 'com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86'
+    implementation 'com.badlogicgames.gdx:gdx-freetype-platform:1.12.1:natives-x86_64'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

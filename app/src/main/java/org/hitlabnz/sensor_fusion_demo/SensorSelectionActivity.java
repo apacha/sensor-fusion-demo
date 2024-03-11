@@ -7,7 +7,6 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -47,8 +46,6 @@ public class SensorSelectionActivity extends AndroidApplication {
         	// If a gyroscope is unavailable, display a warning.
         	displayHardwareMissingWarning();
         }
-
-        Toast.makeText(this, "Volume Up/Down keys: Switch orientation provider!", Toast.LENGTH_LONG).show();
     }
 
     private void displayHardwareMissingWarning() {

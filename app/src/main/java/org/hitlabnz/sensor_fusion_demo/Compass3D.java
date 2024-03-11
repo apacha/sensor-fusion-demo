@@ -4,16 +4,17 @@ import static android.content.Context.SENSOR_SERVICE;
 import android.hardware.SensorManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Version;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -26,11 +27,15 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import org.hitlabnz.sensorfusionlib.orientationProvider.*;
 import org.hitlabnz.sensorfusionlib.representation.*;
@@ -49,24 +54,25 @@ public class Compass3D extends ApplicationAdapter {
     private BitmapFont font;
     private Stage stage;
     private Label label;
-    private MatrixF4x4 rm;
-    private float[] RotMat, ModMat, angles;
-    private Table table;
+    private MatrixF4x4 providerRotationMatrix;
+    private float[] rotMat, modMat, eulerAngles;
     private String currentOrientationProvider;
+    private FreeTypeFontGenerator generator;
 
-    // we have 5 different orientation providers suitable for 3D compass,
-    // Calibrated Gyroscope cannot be used for a compass application
-    private final int nProviders = 5;
+    // We have 6 different orientation providers suitable for 3D compass,
+    // but Calibrated Gyroscope cannot be used in a compass application
+    // to correctly display the compass
+    private final int nProviders = 6;
     private int p = 0;
 
     public Compass3D(SensorSelectionActivity parent) {
         activity = parent;
         sm = (SensorManager)activity.getSystemService(SENSOR_SERVICE);
         currentOrientationProvider = activity.getString(R.string.title_section1);
-        rm = new MatrixF4x4();
-        RotMat = new float[16];
-        ModMat = new float[16];
-        angles = new float[3];
+        providerRotationMatrix = new MatrixF4x4();
+        rotMat = new float[16];
+        modMat = new float[16];
+        eulerAngles = new float[3];
     }
 
     @Override
@@ -150,49 +156,59 @@ public class Compass3D extends ApplicationAdapter {
 
         // setup all the stuff needed for displaying texts
         batch = new SpriteBatch();
-        font = new BitmapFont(); // use libGDX's default Arial font
-        font.getData().setScale(4.0f);
+
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("CascadiaMono.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 48;    // font size
+        font = generator.generateFont(parameter);
 
         // for displaying static texts
         stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
 
-        // Setting up the listener for device volume Up/Down keys press
-        // These keys can be used to switch between the orientation providers
-        Gdx.input.setCatchKey(Input.Keys.VOLUME_UP, true);
-        Gdx.input.setCatchKey(Input.Keys.VOLUME_DOWN, true);
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        // create a new style for the below buttons
+        TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle(createDrawable(Color.LIGHT_GRAY), createDrawable(Color.DARK_GRAY), null, font);
+
+        TextButton prevProvider = new TextButton(" Previous ", btnStyle);
+        prevProvider.addListener(new ChangeListener() {
             @Override
-            public boolean keyUp(int keycode) {
-                switch (keycode) {
-                    case Input.Keys.VOLUME_UP:
-                        p--;
-                        if (p < 0) p = nProviders - 1;
-                        currentOrientationProvider = setCurrentOrientationProvider(p);
-                        break;
-                    case Input.Keys.VOLUME_DOWN:
-                        p++;
-                        if (p == nProviders) p = 0;
-                        currentOrientationProvider = setCurrentOrientationProvider(p);
-                        break;
-                }
-                return true;
+            public void changed(ChangeEvent event, Actor actor) {
+                p--; if (p < 0) p = nProviders - 1;
+                currentOrientationProvider = setCurrentOrientationProvider(p);
+            }
+        });
+
+        TextButton nextProvider = new TextButton("   Next   ", btnStyle);
+        nextProvider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                p++; if (p == nProviders) p = 0;
+                currentOrientationProvider = setCurrentOrientationProvider(p);
             }
         });
 
         // the table will be our parent container for all UI elements
-        table = new Table().top().left();
-        table.setFillParent(true);
-        table.setName("main");
-        //table.setDebug(true);     // useful when we want to visualize the table cells
+        Table container = new Table().top().left();
+        container.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        container.setFillParent(true);
+        //container.setDebug(true);     // useful when we want to visualize the table cells
 
-        stage.addActor(table);
+        stage.addActor(container);
 
         // create text label to display current FPS
         label = new Label("FPS:", new LabelStyle(font, Color.YELLOW));
 
         // add all UI elements to the table, each into a new row
-        table.add(label).top().left().pad(16f);
-        //table.row(); // only if we want to add new UI element to the table in a new row
+        container.add(label).top().left().pad(16f);
+
+        Table buttonGroup = new Table().bottom().right();
+        //buttonGroup.setDebug(true);
+
+        buttonGroup.add(prevProvider).bottom().right().pad(16f).expandX();
+        buttonGroup.row();
+        buttonGroup.add(nextProvider).bottom().right().pad(16f).expandX();
+
+        container.add(buttonGroup).bottom().right().pad(16f).expandY();
 
         // write some logs
         Gdx.app.log(TAG, "App created!");
@@ -231,25 +247,25 @@ public class Compass3D extends ApplicationAdapter {
 
         // Rotate virtual camera based on device orientation
         // get rotation matrix from the current orientation provider
-        activity.getOrientationProvider().getRotationMatrix(rm);
-        RotMat = rm.getMatrix();
+        activity.getOrientationProvider().getRotationMatrix(providerRotationMatrix);
+        rotMat = providerRotationMatrix.getMatrix();
 
         // TODO: Handle Display Rotation using WindowManager.DefaultDisplay.Rotation
         // Currently the activity is hardcoded set to portrait mode.
         // When the device is held with screen facing to the user,
         // the sensors coordinate system is different than the world coordinate system and
         // therefore needs to be remapped to show the 3D compass correctly.
-        SensorManager.remapCoordinateSystem(RotMat, SensorManager.AXIS_X, SensorManager.AXIS_Z, ModMat);
-        SensorManager.getOrientation(ModMat, angles);
+        SensorManager.remapCoordinateSystem(rotMat, SensorManager.AXIS_X, SensorManager.AXIS_Z, modMat);
+        SensorManager.getOrientation(modMat, eulerAngles);
 
-        float Azimuth = (angles[0] * MathUtils.radiansToDegrees + 360f) % 360f; // azimuth
-        float Pitch = angles[1] * MathUtils.radiansToDegrees; // altitude
-        float Roll = angles[2] * MathUtils.radiansToDegrees; // camera roll
+        float Azimuth = (eulerAngles[0] * MathUtils.radiansToDegrees + 360f) % 360f; // Azimuth (Yaw, rotation around the world's Y-axis)
+        float Pitch = eulerAngles[1] * MathUtils.radiansToDegrees; // Altitude (rotation around the world's X-axis)
+        float Roll = eulerAngles[2] * MathUtils.radiansToDegrees; // Camera roll (rotation around the current "LookAt" direction vector)
 
         //Gdx.app.log(TAG, MessageFormat.format("Azimuth: {0,number,#.###}; Pitch: {1,number,#.###}; Roll: {2,number,#.###}", Azimuth, Pitch, Roll));
 
         // Transform the Forward vector (Vector3.Z) using a quaternion got from Azimuth/Pitch angles to a LookAt vector
-        Quaternion rotCam = new Quaternion().setEulerAngles(-Azimuth, Pitch, 0);
+        Quaternion rotCam = new Quaternion().setEulerAngles(-Azimuth, Pitch, 0); // We don't process Roll angle here!
         Vector3 newDir = new Vector3(Vector3.Z).mul(rotCam).nor();
         cam.lookAt(newDir);
 
@@ -276,6 +292,7 @@ public class Compass3D extends ApplicationAdapter {
         batch.dispose();
         font.dispose();
         stage.dispose();
+        generator.dispose();
     }
 
     private String setCurrentOrientationProvider(int p) {
@@ -302,9 +319,20 @@ public class Compass3D extends ApplicationAdapter {
                 result = activity.getString(R.string.title_section6);
                 op = new AccelerometerCompassProvider(sm);
                 break;
+            case 5:
+                result = activity.getString(R.string.title_section4);
+                op = new CalibratedGyroscopeProvider(sm);
+                break;
         }
         op.start();
         activity.setOrientationProvider(op);
         return result;
+    }
+
+    private TextureRegionDrawable createDrawable(Color color) {
+        Pixmap pxm = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pxm.setColor(color);
+        pxm.fill();
+        return new TextureRegionDrawable(new TextureRegion(new Texture(pxm)));
     }
 }

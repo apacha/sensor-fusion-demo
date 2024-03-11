@@ -10,7 +10,7 @@
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
-        android:isGame="true"
+        android:isGame="false"
         android:appCategory="game"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
