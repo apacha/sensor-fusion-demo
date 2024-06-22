@@ -58,15 +58,17 @@ public class Compass3D extends ApplicationAdapter {
     private BitmapFont font;
     private Stage stage;
     private Label infoLabel;
-    private MatrixF4x4 providerRotationMatrix;
-    private float[] rotationMatrix, modMat, eulerAngles;
+    private final MatrixF4x4 providerRotationMatrix;
+    private float[] rotationMatrix;
+    private final float[] modMat;
+    private final float[] eulerAngles;
     private String currentOrientationProvider;
     private FreeTypeFontGenerator generator;
 
     // We have 6 different orientation providers suitable for 3D compass,
     // but Calibrated Gyroscope cannot be used in a compass application
     // to correctly display the compass
-    private final int numberOfOrientationProviders = 6;
+    private final int numberOfProviders = 6;
     private int currentProviderIndex = 0;
 
     public Compass3D(SensorSelectionActivity parent) {
@@ -173,27 +175,37 @@ public class Compass3D extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
 
         // create a new style for the below buttons
-        TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle(createDrawable(Color.BLACK), createDrawable(Color.DARK_GRAY), null, font);
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle(createDrawable(Color.BLACK), createDrawable(Color.DARK_GRAY), null, font);
 
-        TextButton previousProviderButton = new TextButton(" Previous ", btnStyle);
+        TextButton previousProviderButton = new TextButton(
+                activity.getString(R.string.action_previous_provider),
+                buttonStyle
+        );
         previousProviderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                currentProviderIndex = (currentProviderIndex - 1 + numberOfOrientationProviders) % numberOfOrientationProviders;
+                currentProviderIndex = (currentProviderIndex - 1 + numberOfProviders) % numberOfProviders;
                 currentOrientationProvider = setCurrentOrientationProvider(currentProviderIndex);
             }
         });
 
-        TextButton nextProviderButton = new TextButton("  Next  ", btnStyle);
+        TextButton nextProviderButton = new TextButton(
+                activity.getString(R.string.action_next_provider),
+                buttonStyle
+        );
         nextProviderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                currentProviderIndex = (currentProviderIndex + 1) % numberOfOrientationProviders;
+                currentProviderIndex = (currentProviderIndex + 1) % numberOfProviders;
                 currentOrientationProvider = setCurrentOrientationProvider(currentProviderIndex);
             }
         });
 
-        TextButton aboutButton = new TextButton("  About  ", btnStyle);
+
+        TextButton aboutButton = new TextButton(
+                activity.getString(R.string.action_about),
+                buttonStyle
+        );
         aboutButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -216,13 +228,13 @@ public class Compass3D extends ApplicationAdapter {
         container.add(infoLabel).top().left().pad(16f);
 
         Table buttonGroup = new Table();
-        buttonGroup.add(previousProviderButton).height(fontSizeInPixels*2);
-        buttonGroup.add(nextProviderButton).height(fontSizeInPixels*2).padLeft(fontSizeInPixels);
+        buttonGroup.add(previousProviderButton).height(fontSizeInPixels * 2);
+        buttonGroup.add(nextProviderButton).height(fontSizeInPixels * 2).padLeft(fontSizeInPixels);
 
         container.row();
         container.add(buttonGroup).bottom().expand();
         container.row();
-        container.add(aboutButton).bottom().expandX().height(fontSizeInPixels*2)
+        container.add(aboutButton).bottom().expandX().height(fontSizeInPixels * 2)
                 .padTop(fontSizeInPixels)
                 .padBottom(fontSizeInPixels);
 
@@ -256,7 +268,12 @@ public class Compass3D extends ApplicationAdapter {
 
         // render some text information
         batch.begin();
-        infoLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond() + "\nGDX version: " + Version.VERSION + "\nCurrent orientation provider:\n" + currentOrientationProvider);
+        String information = "FPS: " + Gdx.graphics.getFramesPerSecond() +
+                "\nGDX version: " + Version.VERSION +
+                "\n" +
+                activity.getString(R.string.title_orientation_provider) +
+                "\n" + currentOrientationProvider;
+        infoLabel.setText(information);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         batch.end();
@@ -311,37 +328,37 @@ public class Compass3D extends ApplicationAdapter {
         generator.dispose();
     }
 
-    private String setCurrentOrientationProvider(int p) {
-        OrientationProvider op = new ImprovedOrientationSensor1Provider(sensorManager);
+    private String setCurrentOrientationProvider(int providerIndex) {
+        OrientationProvider orientationProvider = new ImprovedOrientationSensor1Provider(sensorManager);
         String result = "";
-        switch (p) {
+        switch (providerIndex) {
             case 0:
                 result = activity.getString(R.string.title_section1);
-                op = new ImprovedOrientationSensor1Provider(sensorManager);
+                orientationProvider = new ImprovedOrientationSensor1Provider(sensorManager);
                 break;
             case 1:
                 result = activity.getString(R.string.title_section2);
-                op = new ImprovedOrientationSensor2Provider(sensorManager);
+                orientationProvider = new ImprovedOrientationSensor2Provider(sensorManager);
                 break;
             case 2:
                 result = activity.getString(R.string.title_section3);
-                op = new RotationVectorProvider(sensorManager);
+                orientationProvider = new RotationVectorProvider(sensorManager);
                 break;
             case 3:
                 result = activity.getString(R.string.title_section5);
-                op = new GravityCompassProvider(sensorManager);
+                orientationProvider = new GravityCompassProvider(sensorManager);
                 break;
             case 4:
                 result = activity.getString(R.string.title_section6);
-                op = new AccelerometerCompassProvider(sensorManager);
+                orientationProvider = new AccelerometerCompassProvider(sensorManager);
                 break;
             case 5:
                 result = activity.getString(R.string.title_section4);
-                op = new CalibratedGyroscopeProvider(sensorManager);
+                orientationProvider = new CalibratedGyroscopeProvider(sensorManager);
                 break;
         }
-        op.start();
-        activity.setOrientationProvider(op);
+        orientationProvider.start();
+        activity.setOrientationProvider(orientationProvider);
         return result;
     }
 

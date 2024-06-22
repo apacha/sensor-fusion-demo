@@ -11,7 +11,6 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:isGame="false"
-        android:appCategory="game"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:fullBackupContent="false"
@@ -19,7 +18,7 @@
         <activity
             android:name="org.hitlabnz.sensor_fusion_demo.SensorSelectionActivity"
             android:label="@string/title_activity_sensor_selection" 
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
             android:theme="@style/Theme.AppCompat"
             android:exported="true">
@@ -31,19 +30,6 @@
          <activity
             android:name="org.hitlabnz.sensor_fusion_demo.AboutActivity"
             android:label="@string/title_activity_about" >
-        </activity>
-        <!-- Trying to fix https://github.com/android/android-test/issues/1412 -->
-        <activity
-            android:exported="false"
-            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
-            tools:node="merge">
-            <intent-filter tools:node="removeAll" />
-        </activity>
-        <activity
-            android:exported="false"
-            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
-            tools:node="merge">
-            <intent-filter tools:node="removeAll" />
         </activity>
     </application>
 </manifest>

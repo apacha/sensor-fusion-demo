@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Sensor fusion demo</string>
-    <string name="action_about">About</string>
+    <string name="action_about">"  About  "</string>
     <string name="title_section1">Improved Orientation Sensor 1</string>
     <string name="title_section2">Improved Orientation Sensor 2</string>
     <string name="title_section3">Android Rotation Vector</string>
@@ -14,5 +14,8 @@
     <string name="gyroscope_missing">Gyroscope Missing</string>
     <string name="gyroscope_missing_message">Your device has no hardware gyroscope sensor, which would be necessary for this app to work properly. Please run it on a newer device that has a gyroscope.</string>
     <string name="OK">OK</string>
+    <string name="action_previous_provider">" Previous "</string>
+    <string name="action_next_provider">"  Next  "</string>
+    <string name="title_orientation_provider">Orientation provider:</string>
 
 </resources>

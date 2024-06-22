@@ -33,14 +33,11 @@ import org.junit.runner.RunWith;
 public class ApplicationTest {
 
     @Rule
-    public ActivityScenarioRule<SensorSelectionActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(SensorSelectionActivity.class);
+    public ActivityScenarioRule<AboutActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(AboutActivity.class);
 
     @Test
     public void sensorSelectionActivityTest() {
-        ViewInteraction actionMenuItemView = onView(withId(R.id.action_about));
-        actionMenuItemView.perform(click());
-
         ViewInteraction textView = onView(
                 allOf(IsInstanceOf.<View>instanceOf(android.widget.TextView.class), withText("About"),
                         withParent(withParent(withContentDescription("About, Navigate up"))),
