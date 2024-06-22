@@ -17,5 +17,11 @@
     <string name="action_previous_provider">" Previous "</string>
     <string name="action_next_provider">"  Next  "</string>
     <string name="title_orientation_provider">Orientation provider:</string>
+    <string name="north">North.png</string>
+    <string name="south">South.png</string>
+    <string name="east">East.png</string>
+    <string name="west">West.png</string>
+    <string name="zenith">Zenith.png</string>
+    <string name="nadir">Nadir.png</string>
 
 </resources>

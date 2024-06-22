@@ -98,25 +98,23 @@ public class Compass3D extends ApplicationAdapter {
         camera.update();
 
         // setup materials for 3D components, load textures from files
-        north = new Texture(Gdx.files.internal("North.png"));
+        north = new Texture(Gdx.files.internal(activity.getString(R.string.north)));
         Material matNorth = new Material(TextureAttribute.createDiffuse(north));
 
-        south = new Texture(Gdx.files.internal("South.png"));
+        south = new Texture(Gdx.files.internal(activity.getString(R.string.south)));
         Material matSouth = new Material(TextureAttribute.createDiffuse(south));
 
-        east = new Texture(Gdx.files.internal("East.png"));
+        east = new Texture(Gdx.files.internal(activity.getString(R.string.east)));
         Material matEast = new Material(TextureAttribute.createDiffuse(east));
 
-        west = new Texture(Gdx.files.internal("West.png"));
+        west = new Texture(Gdx.files.internal(activity.getString(R.string.west)));
         Material matWest = new Material(TextureAttribute.createDiffuse(west));
 
-        zenith = new Texture(Gdx.files.internal("Zenith.png"));
+        zenith = new Texture(Gdx.files.internal(activity.getString(R.string.zenith)));
         Material matZenith = new Material(TextureAttribute.createDiffuse(zenith));
 
-        nadir = new Texture(Gdx.files.internal("Nadir.png"));
+        nadir = new Texture(Gdx.files.internal(activity.getString(R.string.nadir)));
         Material matNadir = new Material(TextureAttribute.createDiffuse(nadir));
-
-        Node node = new Node();
 
         ModelBuilder modelBuilder = new ModelBuilder();
 
@@ -130,9 +128,7 @@ public class Compass3D extends ApplicationAdapter {
 
         // create our model, the 3D compass and put it to the center of the 3D coordinate system
         modelBuilder.begin();
-        node = modelBuilder.node("axes", new Model());  // this is just a dummy node
-
-        node = modelBuilder.node("boxEast", boxEast);
+        Node node = modelBuilder.node("boxEast", boxEast);
         node.translation.set(-10, 0, 0);
         node.rotation.setFromAxis(Vector3.Z, 90);
 
@@ -163,7 +159,7 @@ public class Compass3D extends ApplicationAdapter {
         // setup all the stuff needed for displaying texts
         batch = new SpriteBatch();
 
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("CascadiaMono.ttf"));
+        generator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto-Medium.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         int fontSizeInDp = 20;
         int fontSizeInPixels = (int) (fontSizeInDp * activity.getContext().getResources().getDisplayMetrics().density);

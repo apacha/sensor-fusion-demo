@@ -17,5 +17,11 @@
     <string name="action_previous_provider">" Vorheriger "</string>
     <string name="action_next_provider">"  Nächster  "</string>
     <string name="title_orientation_provider">Aktueller Sensor:</string>
+    <string name="north">Norden-DE.png</string>
+    <string name="south">Süden-DE.png</string>
+    <string name="east">Osten-DE.png</string>
+    <string name="west">Westen-DE.png</string>
+    <string name="zenith">Zenit-DE.png</string>
+    <string name="nadir">Nadir-DE.png</string>
 
 </resources>
