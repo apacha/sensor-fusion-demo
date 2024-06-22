@@ -1,7 +1,10 @@
 package org.hitlabnz.sensor_fusion_demo;
 
 import static android.content.Context.SENSOR_SERVICE;
+
+import android.content.Intent;
 import android.hardware.SensorManager;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Version;
@@ -37,15 +40,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 import org.hitlabnz.sensorfusionlib.orientationProvider.*;
 import org.hitlabnz.sensorfusionlib.representation.*;
 
 public class Compass3D extends ApplicationAdapter {
     private final String TAG = Compass3D.class.getName();
     private final SensorSelectionActivity activity;
-    private final SensorManager sm;
+    private final SensorManager sensorManager;
     private Environment lights;
-    private PerspectiveCamera cam;
+    private PerspectiveCamera camera;
     private ModelBatch modelBatch;
     private Model model;
     private ModelInstance instance;
@@ -53,24 +57,24 @@ public class Compass3D extends ApplicationAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private Stage stage;
-    private Label label;
+    private Label infoLabel;
     private MatrixF4x4 providerRotationMatrix;
-    private float[] rotMat, modMat, eulerAngles;
+    private float[] rotationMatrix, modMat, eulerAngles;
     private String currentOrientationProvider;
     private FreeTypeFontGenerator generator;
 
     // We have 6 different orientation providers suitable for 3D compass,
     // but Calibrated Gyroscope cannot be used in a compass application
     // to correctly display the compass
-    private final int nProviders = 6;
-    private int p = 0;
+    private final int numberOfOrientationProviders = 6;
+    private int currentProviderIndex = 0;
 
     public Compass3D(SensorSelectionActivity parent) {
         activity = parent;
-        sm = (SensorManager)activity.getSystemService(SENSOR_SERVICE);
+        sensorManager = (SensorManager) activity.getSystemService(SENSOR_SERVICE);
         currentOrientationProvider = activity.getString(R.string.title_section1);
         providerRotationMatrix = new MatrixF4x4();
-        rotMat = new float[16];
+        rotationMatrix = new float[16];
         modMat = new float[16];
         eulerAngles = new float[3];
     }
@@ -84,12 +88,12 @@ public class Compass3D extends ApplicationAdapter {
         modelBatch = new ModelBatch();
 
         // create & setup camera
-        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(Vector3.Zero); // put the camera to the center of the 3D coordinate system
-        cam.lookAt(Vector3.Z); // look at North direction first
-        cam.near = 1f;
-        cam.far = 300f;
-        cam.update();
+        camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.position.set(Vector3.Zero); // put the camera to the center of the 3D coordinate system
+        camera.lookAt(Vector3.Z); // look at North direction first
+        camera.near = 1f;
+        camera.far = 300f;
+        camera.update();
 
         // setup materials for 3D components, load textures from files
         north = new Texture(Gdx.files.internal("North.png"));
@@ -159,7 +163,9 @@ public class Compass3D extends ApplicationAdapter {
 
         generator = new FreeTypeFontGenerator(Gdx.files.internal("CascadiaMono.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 48;    // font size
+        int fontSizeInDp = 20;
+        int fontSizeInPixels = (int) (fontSizeInDp * activity.getContext().getResources().getDisplayMetrics().density);
+        parameter.size = fontSizeInPixels;
         font = generator.generateFont(parameter);
 
         // for displaying static texts
@@ -167,48 +173,58 @@ public class Compass3D extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
 
         // create a new style for the below buttons
-        TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle(createDrawable(Color.LIGHT_GRAY), createDrawable(Color.DARK_GRAY), null, font);
+        TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle(createDrawable(Color.BLACK), createDrawable(Color.DARK_GRAY), null, font);
 
-        TextButton prevProvider = new TextButton(" Previous ", btnStyle);
-        prevProvider.addListener(new ChangeListener() {
+        TextButton previousProviderButton = new TextButton(" Previous ", btnStyle);
+        previousProviderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                p--; if (p < 0) p = nProviders - 1;
-                currentOrientationProvider = setCurrentOrientationProvider(p);
+                currentProviderIndex = (currentProviderIndex - 1 + numberOfOrientationProviders) % numberOfOrientationProviders;
+                currentOrientationProvider = setCurrentOrientationProvider(currentProviderIndex);
             }
         });
 
-        TextButton nextProvider = new TextButton("   Next   ", btnStyle);
-        nextProvider.addListener(new ChangeListener() {
+        TextButton nextProviderButton = new TextButton("  Next  ", btnStyle);
+        nextProviderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                p++; if (p == nProviders) p = 0;
-                currentOrientationProvider = setCurrentOrientationProvider(p);
+                currentProviderIndex = (currentProviderIndex + 1) % numberOfOrientationProviders;
+                currentOrientationProvider = setCurrentOrientationProvider(currentProviderIndex);
+            }
+        });
+
+        TextButton aboutButton = new TextButton("  About  ", btnStyle);
+        aboutButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Intent intent = new Intent(activity, AboutActivity.class);
+                activity.startActivity(intent);
             }
         });
 
         // the table will be our parent container for all UI elements
         Table container = new Table().top().left();
+        // container.debug();      // Turn on all debug lines (table, cell, and widget).
         container.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         container.setFillParent(true);
-        //container.setDebug(true);     // useful when we want to visualize the table cells
 
         stage.addActor(container);
 
         // create text label to display current FPS
-        label = new Label("FPS:", new LabelStyle(font, Color.YELLOW));
-
+        infoLabel = new Label("FPS:", new LabelStyle(font, Color.WHITE));
         // add all UI elements to the table, each into a new row
-        container.add(label).top().left().pad(16f);
+        container.add(infoLabel).top().left().pad(16f);
 
-        Table buttonGroup = new Table().bottom().right();
-        //buttonGroup.setDebug(true);
+        Table buttonGroup = new Table();
+        buttonGroup.add(previousProviderButton).height(fontSizeInPixels*2);
+        buttonGroup.add(nextProviderButton).height(fontSizeInPixels*2).padLeft(fontSizeInPixels);
 
-        buttonGroup.add(prevProvider).bottom().right().pad(16f).expandX();
-        buttonGroup.row();
-        buttonGroup.add(nextProvider).bottom().right().pad(16f).expandX();
-
-        container.add(buttonGroup).bottom().right().pad(16f).expandY();
+        container.row();
+        container.add(buttonGroup).bottom().expand();
+        container.row();
+        container.add(aboutButton).bottom().expandX().height(fontSizeInPixels*2)
+                .padTop(fontSizeInPixels)
+                .padBottom(fontSizeInPixels);
 
         // write some logs
         Gdx.app.log(TAG, "App created!");
@@ -221,9 +237,9 @@ public class Compass3D extends ApplicationAdapter {
         // should not happen on Android using the current settings,
         // manifest file - hardcoded screen portrait mode,
         // but anyway, on resize we update the camera viewport
-        cam.viewportWidth = width;
-        cam.viewportHeight = height;
-        cam.update();
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
 
         stage.getViewport().update(width, height, true);
     }
@@ -234,13 +250,13 @@ public class Compass3D extends ApplicationAdapter {
         ScreenUtils.clear(Color.BLACK, true);
 
         // render the model - our 3D compass
-        modelBatch.begin(cam);
+        modelBatch.begin(camera);
         modelBatch.render(instance, lights);
         modelBatch.end();
 
         // render some text information
         batch.begin();
-        label.setText("FPS: " + Gdx.graphics.getFramesPerSecond() + "\nGDX version: " + Version.VERSION + "\nCurrent orientation provider:\n" + currentOrientationProvider);
+        infoLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond() + "\nGDX version: " + Version.VERSION + "\nCurrent orientation provider:\n" + currentOrientationProvider);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
         batch.end();
@@ -248,14 +264,14 @@ public class Compass3D extends ApplicationAdapter {
         // Rotate virtual camera based on device orientation
         // get rotation matrix from the current orientation provider
         activity.getOrientationProvider().getRotationMatrix(providerRotationMatrix);
-        rotMat = providerRotationMatrix.getMatrix();
+        rotationMatrix = providerRotationMatrix.getMatrix();
 
         // TODO: Handle Display Rotation using WindowManager.DefaultDisplay.Rotation
         // Currently the activity is hardcoded set to portrait mode.
         // When the device is held with screen facing to the user,
         // the sensors coordinate system is different than the world coordinate system and
         // therefore needs to be remapped to show the 3D compass correctly.
-        SensorManager.remapCoordinateSystem(rotMat, SensorManager.AXIS_X, SensorManager.AXIS_Z, modMat);
+        SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, modMat);
         SensorManager.getOrientation(modMat, eulerAngles);
 
         float Azimuth = (eulerAngles[0] * MathUtils.radiansToDegrees + 360f) % 360f; // Azimuth (Yaw, rotation around the world's Y-axis)
@@ -267,15 +283,15 @@ public class Compass3D extends ApplicationAdapter {
         // Transform the Forward vector (Vector3.Z) using a quaternion got from Azimuth/Pitch angles to a LookAt vector
         Quaternion rotCam = new Quaternion().setEulerAngles(-Azimuth, Pitch, 0); // We don't process Roll angle here!
         Vector3 newDir = new Vector3(Vector3.Z).mul(rotCam).nor();
-        cam.lookAt(newDir);
+        camera.lookAt(newDir);
 
         // Transform the camera UP vector (Vector3.Y) using a quaternion got from previous LookAt vector and Roll angle
         Quaternion rotUp = new Quaternion(newDir, Roll);
         Vector3 newUp = new Vector3(Vector3.Y).mul(rotUp).nor();
-        cam.up.set(newUp);
+        camera.up.set(newUp);
 
         // apply the above changes on camera
-        cam.update();
+        camera.update();
     }
 
     @Override
@@ -296,32 +312,32 @@ public class Compass3D extends ApplicationAdapter {
     }
 
     private String setCurrentOrientationProvider(int p) {
-        OrientationProvider op = new ImprovedOrientationSensor1Provider(sm);
+        OrientationProvider op = new ImprovedOrientationSensor1Provider(sensorManager);
         String result = "";
         switch (p) {
             case 0:
                 result = activity.getString(R.string.title_section1);
-                op = new ImprovedOrientationSensor1Provider(sm);
+                op = new ImprovedOrientationSensor1Provider(sensorManager);
                 break;
             case 1:
                 result = activity.getString(R.string.title_section2);
-                op = new ImprovedOrientationSensor2Provider(sm);
+                op = new ImprovedOrientationSensor2Provider(sensorManager);
                 break;
             case 2:
                 result = activity.getString(R.string.title_section3);
-                op = new RotationVectorProvider(sm);
+                op = new RotationVectorProvider(sensorManager);
                 break;
             case 3:
                 result = activity.getString(R.string.title_section5);
-                op = new GravityCompassProvider(sm);
+                op = new GravityCompassProvider(sensorManager);
                 break;
             case 4:
                 result = activity.getString(R.string.title_section6);
-                op = new AccelerometerCompassProvider(sm);
+                op = new AccelerometerCompassProvider(sensorManager);
                 break;
             case 5:
                 result = activity.getString(R.string.title_section4);
-                op = new CalibratedGyroscopeProvider(sm);
+                op = new CalibratedGyroscopeProvider(sensorManager);
                 break;
         }
         op.start();
