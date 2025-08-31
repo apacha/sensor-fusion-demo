@@ -7,12 +7,11 @@ def buildNumber = System.getenv("BITRISE_BUILD_NUMBER") as Integer ?: 1
 
 android {
     namespace 'org.hitlabnz.sensor_fusion_demo'
-    compileSdk 34
 
     defaultConfig {
         applicationId "org.hitlabnz.sensor_fusion_demo"
         minSdk 25
-        targetSdk 34
+        targetSdk 36
         versionCode legacyOffset + buildNumber
         versionName "2.0." + buildNumber
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -32,6 +31,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    compileSdk 36
 }
 
 dependencies {
